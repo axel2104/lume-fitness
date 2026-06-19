@@ -24,6 +24,8 @@ jobs:
         run: rm -rf src/pages/api
       - name: Build Astro
         uses: withastro/action@v3
+        with:
+          package-manager: npm
 
   deploy:
     needs: build
