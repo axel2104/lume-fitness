@@ -1,0 +1,79 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import Stripe from 'stripe';
+
+const sessionId = Astro.url.searchParams.get('session_id');
+let customerName = '';
+let customerEmail = '';
+let piano = '';
+let sede = '';
+let mode = 'checkout'; // 'checkout' | 'waitlist'
+
+// Se esiste la session_id → recupera dettagli da Stripe
+if (sessionId && import.meta.env.STRIPE_SECRET_KEY) {
+  try {
+    const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, { apiVersion: '2024-06-20' });
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    customerEmail = session.customer_email ?? session.customer_details?.email ?? '';
+    customerName  = session.customer_details?.name ?? '';
+    piano = session.metadata?.piano ?? '';
+    sede  = session.metadata?.sede ?? '';
+    mode  = 'checkout';
+  } catch {
+    // session non trovata o Stripe non configurato — ok
+  }
+}
+---
+
+<Layout title="Prenotazione confermata — Lume Fitness 2026/27">
+  <main style="min-height:100vh;background:#080608;color:#fff;font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center">
+
+    <!-- Checkmark animato -->
+    <div style="width:5rem;height:5rem;border-radius:50%;background:rgba(196,0,66,.15);border:2px solid rgba(196,0,66,.4);display:flex;align-items:center;justify-content:center;margin-bottom:1.75rem;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1) both">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M5 13l4 4L19 7" stroke="#C40042" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div style="display:inline-flex;align-items:center;gap:.45rem;padding:.3rem .9rem;border-radius:9999px;border:1px solid rgba(196,0,66,.3);background:rgba(196,0,66,.08);margin-bottom:1.25rem">
+      <span style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,120,150,.9)">Prenotazione confermata</span>
+    </div>
+
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:1rem">
+      Benvenuto nella nuova<br/>stagione <span style="color:#C40042">2026/27</span>!
+    </h1>
+
+    <p style="color:rgba(255,255,255,.5);font-size:.95rem;max-width:30rem;line-height:1.8;margin-bottom:2rem">
+      {mode === 'checkout'
+        ? 'Il tuo pagamento è stato elaborato con successo. Riceverai una email di conferma a breve con tutti i dettagli.'
+        : 'Sei in lista d\'attesa con priorità early bird. Ti contatteremo non appena i prezzi saranno disponibili.'}
+    </p>
+
+    <!-- Riepilogo (se disponibile) -->
+    {(piano || sede || customerEmail) && (
+      <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem 2rem;margin-bottom:2rem;min-width:20rem;text-align:left">
+        <p style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1rem">Riepilogo</p>
+        {customerName && <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:rgba(255,255,255,.4);font-size:.84rem">Nome</span><span style="font-size:.84rem;font-weight:500">{customerName}</span></div>}
+        {customerEmail && <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:rgba(255,255,255,.4);font-size:.84rem">Email</span><span style="font-size:.84rem">{customerEmail}</span></div>}
+        {sede && <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:rgba(255,255,255,.4);font-size:.84rem">Sede</span><span style="font-size:.84rem;font-weight:500;color:#C40042">{sede}</span></div>}
+        {piano && <div style="display:flex;justify-content:space-between;padding:.5rem 0"><span style="color:rgba(255,255,255,.4);font-size:.84rem">Piano</span><span style="font-size:.84rem;font-weight:500;color:#C40042">{piano.charAt(0).toUpperCase() + piano.slice(1)}</span></div>}
+      </div>
+    )}
+
+    <div style="display:flex;gap:.875rem;flex-wrap:wrap;justify-content:center">
+      <a href="/" style="display:inline-flex;align-items:center;gap:.45rem;padding:.75rem 1.75rem;background:#C40042;color:#fff;font-weight:600;border-radius:9999px;text-decoration:none;font-size:.9rem;transition:all .2s">
+        Torna al sito
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://www.facebook.com/lumefitnessclub" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:.45rem;padding:.75rem 1.75rem;border:1.5px solid rgba(255,255,255,.18);color:#fff;font-weight:500;border-radius:9999px;text-decoration:none;font-size:.9rem">
+        Seguici su Facebook
+      </a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @keyframes scaleIn { from{opacity:0;transform:scale(.6)} to{opacity:1;transform:scale(1)} }
+</style>

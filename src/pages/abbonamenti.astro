@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { MEMBERSHIP_PLANS } from '../lib/data';
+import MemberCheck from '../components/react/MemberCheck';
+---
+
+<Layout title="Abbonamenti" description="Piani flessibili per ogni obiettivo. Confronta gli abbonamenti Lume Fitness e scegli quello più adatto a te.">
+  <Header />
+
+  <main class="pt-24">
+    <section class="py-16 px-4 sm:px-6">
+      <div class="mx-auto max-w-7xl">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+          <p class="section-label mb-3">Abbonamenti</p>
+          <h1 class="section-title mb-4">Investi in te stesso.</h1>
+          <p class="text-white/50">Nessun costo nascosto. Disdici quando vuoi. La prima settimana è gratuita.</p>
+        </div>
+
+        <!-- Toggle mensile / annuale -->
+        <div class="flex justify-center mb-12 reveal">
+          <div class="inline-flex items-center bg-dark-700 rounded-full p-1 gap-1">
+            <button id="monthly-btn" class="period-btn px-5 py-2 rounded-full text-sm font-medium transition-all bg-white text-dark-900">Mensile</button>
+            <button id="yearly-btn" class="period-btn px-5 py-2 rounded-full text-sm font-medium transition-all text-white/60 hover:text-white">
+              Annuale
+              <span class="ml-1.5 bg-lume-300/20 text-lume-300 text-xs px-2 py-0.5 rounded-full">–20%</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Piani -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {MEMBERSHIP_PLANS.map((plan, i) => (
+            <div
+              class:list={[
+                'card p-7 reveal flex flex-col',
+                plan.highlighted ? 'border-lume-300/40 relative' : ''
+              ]}
+              style={`transition-delay: ${i * 80}ms`}
+            >
+              {plan.highlighted && (
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span class="bg-lume-300 text-dark-900 text-xs font-bold px-3 py-1 rounded-full">Più popolare</span>
+                </div>
+              )}
+
+              <div class="mb-6">
+                <h3 class="font-display font-bold text-xl mb-1">{plan.name}</h3>
+                <p class="text-white/40 text-sm">{plan.description}</p>
+              </div>
+
+              <div class="mb-6">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="font-display font-bold text-4xl" data-monthly={plan.price} data-yearly={Math.round(plan.price * 0.8)}>
+                    €{plan.price}
+                  </span>
+                  <span class="text-white/30 text-sm">/mese</span>
+                </div>
+                <p class="text-white/30 text-xs mt-1">
+                  Sede: {plan.club === 'both' ? 'Entrambe le sedi' : plan.club === 'macerata' ? 'Macerata' : 'Montecassiano'}
+                </p>
+              </div>
+
+              <ul class="space-y-2.5 flex-1 mb-8">
+                {plan.features.map(f => (
+                  <li class="flex items-start gap-2.5 text-sm text-white/60">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-0.5 flex-shrink-0">
+                      <circle cx="8" cy="8" r="7" stroke="#c2ff00" stroke-width="1.5"/>
+                      <path d="M5 8l2 2 4-4" stroke="#c2ff00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href={`/prenota?plan=${plan.id}`}
+                class:list={[plan.highlighted ? 'btn-primary justify-center' : 'btn-outline justify-center']}
+              >
+                Inizia ora
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <!-- FAQ quick -->
+        <div class="mt-20 max-w-2xl mx-auto reveal">
+          <h2 class="font-display font-bold text-2xl text-center mb-8">Domande frequenti</h2>
+          <div class="space-y-3" id="faq">
+            {[
+              ['Posso disdire in qualsiasi momento?', 'Sì, nessun vincolo. Puoi disdire online con 30 giorni di preavviso.'],
+              ['La prima settimana è davvero gratuita?', 'Assolutamente. Accesso completo per 7 giorni, nessuna carta richiesta.'],
+              ['Posso usare entrambe le sedi?', 'Con i piani Plus, Premium e Personal hai accesso a tutte e due le sedi.'],
+              ['Offrite sconti per studenti?', 'Sì! Porta il tuo tesserino universitario in sede per uno sconto del 20%.'],
+            ].map(([q, a]) => (
+              <details class="card p-5 group cursor-pointer">
+                <summary class="flex items-center justify-between text-white font-medium list-none">
+                  {q}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                       class="flex-shrink-0 transition-transform duration-200 group-open:rotate-180">
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </summary>
+                <p class="text-white/50 text-sm mt-3 leading-relaxed">{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sezione check membro personalizzata -->
+    <section class="py-16 px-4 sm:px-6 bg-dark-800/30">
+      <div class="mx-auto max-w-xl text-center reveal">
+        <p class="section-label mb-3">Già membro?</p>
+        <h2 class="font-display font-bold text-3xl mb-4">Trova il piano su misura</h2>
+        <p class="text-white/50 mb-8 text-sm">Inserisci la tua email: analizziamo il tuo storico e ti proponiamo l'abbonamento più adatto.</p>
+        <MemberCheck client:load />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const monthlyBtn = document.getElementById('monthly-btn')!;
+  const yearlyBtn = document.getElementById('yearly-btn')!;
+
+  function setPeriod(yearly: boolean) {
+    document.querySelectorAll('[data-monthly]').forEach(el => {
+      const price = yearly
+        ? el.getAttribute('data-yearly')
+        : el.getAttribute('data-monthly');
+      el.textContent = `€${price}`;
+    });
+
+    if (yearly) {
+      yearlyBtn.classList.add('bg-white', 'text-dark-900');
+      yearlyBtn.classList.remove('text-white/60');
+      monthlyBtn.classList.remove('bg-white', 'text-dark-900');
+      monthlyBtn.classList.add('text-white/60');
+    } else {
+      monthlyBtn.classList.add('bg-white', 'text-dark-900');
+      monthlyBtn.classList.remove('text-white/60');
+      yearlyBtn.classList.remove('bg-white', 'text-dark-900');
+      yearlyBtn.classList.add('text-white/60');
+    }
+  }
+
+  monthlyBtn.addEventListener('click', () => setPeriod(false));
+  yearlyBtn.addEventListener('click', () => setPeriod(true));
+</script>

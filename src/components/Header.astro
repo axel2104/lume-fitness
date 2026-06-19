@@ -1,0 +1,122 @@
+---
+const navLinks = [
+  { href: '/corsi', label: 'Corsi' },
+  { href: '/abbonamenti', label: 'Abbonamenti' },
+  { href: '/sedi/macerata', label: 'Macerata' },
+  { href: '/sedi/montecassiano', label: 'Montecassiano' },
+  { href: '/blog', label: 'News' },
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="flex h-16 items-center justify-between">
+
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 group" aria-label="Lume Fitness Club - Home">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+             class="transition-transform duration-300 group-hover:scale-110">
+          <circle cx="16" cy="16" r="15" stroke="#c2ff00" stroke-width="1.5"/>
+          <path d="M16 6 L16 26 M8 12 L24 12 M8 20 L24 20" stroke="#c2ff00" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="3" fill="#c2ff00"/>
+        </svg>
+        <span class="font-display font-bold text-xl tracking-tight">
+          <span class="text-lume-300">LUME</span>
+          <span class="text-white/60 font-light ml-1 text-sm">FITNESS</span>
+        </span>
+      </a>
+
+      <!-- Nav desktop -->
+      <nav class="hidden md:flex items-center gap-1">
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'px-4 py-2 text-sm font-medium rounded-full transition-all duration-200',
+              pathname === href
+                ? 'text-lume-300 bg-lume-300/10'
+                : 'text-white/70 hover:text-white hover:bg-white/5'
+            ]}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- CTA + mobile menu -->
+      <div class="flex items-center gap-3">
+        <a href="/prenota" class="btn-primary text-sm py-2 px-5 hidden sm:inline-flex">
+          Prenota ora
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px] group"
+          aria-label="Menu"
+          aria-expanded="false"
+        >
+          <span class="w-5 h-[1.5px] bg-white transition-all duration-300 group-[.open]:rotate-45 group-[.open]:translate-y-[6.5px]"></span>
+          <span class="w-5 h-[1.5px] bg-white transition-all duration-300 group-[.open]:opacity-0"></span>
+          <span class="w-5 h-[1.5px] bg-white transition-all duration-300 group-[.open]:-rotate-45 group-[.open]:-translate-y-[6.5px]"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden bg-dark-800/95 backdrop-blur-xl border-t border-white/[0.06] px-4 pb-6 pt-4"
+  >
+    <nav class="flex flex-col gap-1">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'px-4 py-3 text-base font-medium rounded-xl transition-colors',
+            pathname === href
+              ? 'text-lume-300 bg-lume-300/10'
+              : 'text-white/70 hover:text-white hover:bg-white/5'
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+      <a href="/prenota" class="btn-primary mt-3 justify-center">Prenota ora</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const btn = document.getElementById('mobile-menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  // Scroll: aggiungi sfondo blur dopo 60px
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      header.classList.add('bg-dark-900/80', 'backdrop-blur-xl', 'border-b', 'border-white/[0.06]');
+    } else {
+      header.classList.remove('bg-dark-900/80', 'backdrop-blur-xl', 'border-b', 'border-white/[0.06]');
+    }
+  }, { passive: true });
+
+  // Mobile menu toggle
+  btn.addEventListener('click', () => {
+    const isOpen = menu.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    if (!isOpen) btn.classList.add('open');
+    else btn.classList.remove('open');
+  });
+
+  // Chiudi menu su link click
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      btn.classList.remove('open');
+    });
+  });
+</script>

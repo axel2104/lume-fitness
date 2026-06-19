@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lume Fitness Club — Bento Grid Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --brand: #C40042;
+      --brand-dark: #8c0030;
+      --brand-glow: rgba(196,0,66,.35);
+      --bg: #080608;
+      --card: #0f0d0f;
+      --card-hover: #151215;
+      --border: rgba(255,255,255,.07);
+      --border-hover: rgba(255,255,255,.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    ::selection { background: rgba(196,0,66,.3); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+    /* ── HEADER ── */
+    #hdr {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background .35s, border-color .35s;
+    }
+    #hdr.s {
+      background: rgba(8,6,8,.85);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid rgba(196,0,66,.12);
+    }
+    .nav-link {
+      padding: .45rem 1rem; border-radius: 9999px;
+      font-size: .875rem; color: rgba(255,255,255,.55);
+      text-decoration: none; transition: all .2s;
+    }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .btn-hdr {
+      background: var(--brand); color: #fff; font-weight: 600;
+      padding: .5rem 1.25rem; border-radius: 9999px;
+      font-size: .85rem; text-decoration: none;
+      transition: all .2s; border: none; cursor: pointer;
+    }
+    .btn-hdr:hover { background: #e0004c; transform: scale(1.04); }
+
+    /* ── HERO MINIMAL ── */
+    .hero-section {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 0 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%);
+      width: 900px; height: 600px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(196,0,66,.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes scaleIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+    @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+    .afu { animation: fadeUp .7s ease forwards; }
+    .afi { animation: fadeIn .5s ease forwards; }
+
+    /* ── BENTO GRID ── */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 240px;
+      gap: 10px;
+    }
+
+    /* Card base */
+    .bc {
+      position: relative; overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      transition:
+        transform .35s cubic-bezier(.34,1.56,.64,1),
+        border-color .25s,
+        box-shadow .35s;
+    }
+    .bc:hover {
+      transform: scale(1.018) translateY(-2px);
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(196,0,66,.08);
+      z-index: 2;
+    }
+    .bc:active { transform: scale(1.008) translateY(0); }
+
+    /* Shimmer on hover */
+    .bc::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.04) 50%, transparent 60%);
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity .3s;
+      pointer-events: none;
+    }
+    .bc:hover::after { opacity: 1; animation: shimmer .7s ease; }
+
+    /* Grid placements */
+    .bc-hero  { grid-column: 1 / 4; grid-row: 1 / 3; }
+    .bc-stats { grid-column: 4;     grid-row: 1; }
+    .bc-cta   { grid-column: 4;     grid-row: 2; }
+    .bc-cf    { grid-column: 1;     grid-row: 3 / 5; }
+    .bc-abbo  { grid-column: 2 / 4; grid-row: 3; }
+    .bc-rifo  { grid-column: 4;     grid-row: 3 / 5; }
+    .bc-pisc  { grid-column: 2;     grid-row: 4; }
+    .bc-orari { grid-column: 3;     grid-row: 4; }
+
+    /* Image overlay cards */
+    .bc-img {
+      position: absolute; inset: 0;
+      object-fit: cover; width: 100%; height: 100%;
+      transition: transform .6s cubic-bezier(.25,.46,.45,.94), filter .4s;
+    }
+    .bc:hover .bc-img { transform: scale(1.06); filter: brightness(1.08); }
+    .bc-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,6,8,.85) 0%, rgba(8,6,8,.25) 50%, transparent 100%);
+    }
+    .bc-overlay-strong {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(8,6,8,.7) 0%, rgba(8,6,8,.3) 100%);
+    }
+    .bc-content { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 1.75rem; }
+    .bc-content-bottom { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.75rem; }
+    .bc-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--brand); display: inline-block; margin-bottom: .5rem;
+    }
+    .bc-title {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      color: #fff; line-height: 1.05; letter-spacing: -.02em;
+    }
+    .bc-sub { color: rgba(255,255,255,.5); font-size: .875rem; line-height: 1.6; margin-top: .4rem; }
+
+    /* Open indicator */
+    .open-chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: rgba(255,255,255,.1); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 9999px; padding: .3rem .75rem;
+      font-size: .72rem; font-weight: 500; color: rgba(255,255,255,.7);
+      transition: all .2s; margin-top: auto;
+    }
+    .bc:hover .open-chip {
+      background: rgba(196,0,66,.25); border-color: rgba(196,0,66,.4);
+      color: #fff;
+    }
+    .open-chip svg { transition: transform .2s; }
+    .bc:hover .open-chip svg { transform: translateX(2px); }
+
+    /* ── HERO CARD specific ── */
+    .bc-hero .bc-title { font-size: clamp(2.4rem, 4.5vw, 3.6rem); }
+    .play-btn {
+      width: 3.5rem; height: 3.5rem; border-radius: 50%;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s; margin-bottom: 1.25rem;
+    }
+    .bc-hero:hover .play-btn { background: var(--brand); border-color: var(--brand); transform: scale(1.1); }
+
+    /* ── STATS CARD ── */
+    .bc-stats { cursor: default; }
+    .bc-stats:hover { transform: scale(1.01) translateY(-2px); }
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 800;
+      font-size: 3.2rem; line-height: 1; letter-spacing: -.04em;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,.6) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-num.red { background: linear-gradient(135deg, var(--brand) 0%, #ff4477 100%); -webkit-background-clip: text; }
+    .stat-dots { display: flex; gap: 5px; margin-top: 1rem; }
+    .stat-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--brand); opacity: .4; }
+    .stat-dot.active { opacity: 1; animation: pulse 2s infinite; }
+
+    /* ── CTA CARD ── */
+    .bc-cta {
+      background: var(--brand);
+      background-image: radial-gradient(ellipse 100% 100% at 50% 0%, rgba(255,255,255,.12), transparent);
+    }
+    .bc-cta:hover {
+      box-shadow: 0 20px 60px rgba(196,0,66,.4), 0 0 0 1px rgba(196,0,66,.5);
+    }
+    .cta-arrow {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s; margin-top: auto;
+    }
+    .bc-cta:hover .cta-arrow { background: rgba(255,255,255,.25); transform: translateX(4px); }
+
+    /* ── ABBONAMENTI CARD ── */
+    .plan-pill {
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: .875rem 1rem;
+      transition: all .25s; flex: 1;
+    }
+    .plan-pill.featured {
+      background: rgba(196,0,66,.12); border-color: rgba(196,0,66,.3);
+    }
+    .bc:hover .plan-pill.featured { background: rgba(196,0,66,.2); border-color: rgba(196,0,66,.5); }
+    .plan-pill-name { font-size: .72rem; color: rgba(255,255,255,.45); margin-bottom: .25rem; font-weight: 500; }
+    .plan-pill-price { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.3rem; }
+
+    /* ── ORARI CARD ── */
+    .orari-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: .8rem;
+    }
+    .orari-row:last-child { border-bottom: none; }
+    .orari-day { color: rgba(255,255,255,.4); }
+    .orari-time { color: rgba(255,255,255,.75); font-weight: 500; }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(8,6,8,.8); backdrop-filter: blur(16px) saturate(1.2);
+      display: flex; align-items: center; justify-content: center; padding: 1rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #0f0d0f;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 24px; max-width: 680px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      transform: scale(.94) translateY(16px);
+      transition: transform .35s cubic-bezier(.34,1.2,.64,1);
+      position: relative;
+    }
+    .modal-backdrop.open .modal { transform: scale(1) translateY(0); }
+    .modal-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      width: 2rem; height: 2rem; border-radius: 50%;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .2s; z-index: 10;
+      color: rgba(255,255,255,.6);
+    }
+    .modal-close:hover { background: rgba(255,255,255,.15); color: #fff; }
+    .modal-img { width: 100%; height: 280px; object-fit: cover; border-radius: 20px 20px 0 0; }
+    .modal-body { padding: 2rem; }
+    .modal-tag {
+      font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--brand); margin-bottom: .5rem;
+    }
+    .modal-title {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+      font-size: 1.9rem; line-height: 1.1; letter-spacing: -.02em; margin-bottom: .75rem;
+    }
+    .modal-desc { color: rgba(255,255,255,.55); line-height: 1.75; font-size: .9375rem; }
+    .modal-features {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: 1.5rem;
+    }
+    .modal-feature {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .8125rem; color: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 10px; padding: .6rem .875rem;
+    }
+    .modal-feature span { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); flex-shrink: 0; }
+    .modal-cta {
+      display: flex; align-items: center; justify-content: center;
+      gap: .5rem; width: 100%; padding: .9rem;
+      background: var(--brand); color: #fff; font-weight: 600; font-size: .9375rem;
+      border-radius: 14px; border: none; cursor: pointer; margin-top: 1.75rem;
+      transition: all .2s; text-decoration: none;
+    }
+    .modal-cta:hover { background: #e0004c; transform: scale(1.02); }
+
+    /* Video modal */
+    .video-wrap {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border-radius: 20px 20px 0 0;
+    }
+    .video-wrap iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* Piani modal */
+    .plan-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px; padding: 1.25rem; flex: 1; transition: all .2s;
+    }
+    .plan-card.featured { background: rgba(196,0,66,.1); border-color: rgba(196,0,66,.35); }
+    .plan-card:hover { border-color: rgba(255,255,255,.18); }
+    .plan-card.featured:hover { border-color: rgba(196,0,66,.55); }
+
+    /* Reveal scroll */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.v { opacity: 1; transform: translateY(0); }
+
+    /* Mobile adjustments */
+    @media (max-width: 900px) {
+      .bento {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 220px;
+      }
+      .bc-hero  { grid-column: 1 / 3; grid-row: 1 / 3; }
+      .bc-stats { grid-column: 1; }
+      .bc-cta   { grid-column: 2; }
+      .bc-cf    { grid-column: 1; grid-row: auto; }
+      .bc-abbo  { grid-column: 1 / 3; grid-row: auto; }
+      .bc-rifo  { grid-column: 2; grid-row: auto; }
+      .bc-pisc  { grid-column: 1; grid-row: auto; }
+      .bc-orari { grid-column: 2; grid-row: auto; }
+    }
+    @media (max-width: 560px) {
+      .bento { grid-template-columns: 1fr; grid-auto-rows: 200px; }
+      .bc-hero  { grid-column: 1; grid-row: auto; height: 280px; }
+      .bc-stats, .bc-cta, .bc-cf, .bc-abbo, .bc-rifo, .bc-pisc, .bc-orari { grid-column: 1; grid-row: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header id="hdr">
+  <div style="max-width:80rem;margin:0 auto;padding:0 1.5rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:3.75rem">
+      <a href="#" style="display:flex;align-items:center;gap:.5rem;text-decoration:none">
+        <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#C40042" stroke-width="1.5"/>
+          <path d="M16 6L16 26 M8 12L24 12 M8 20L24 20" stroke="#C40042" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="3" fill="#C40042"/>
+        </svg>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem">
+          <span style="color:#C40042">LUME</span>
+          <span style="color:rgba(255,255,255,.4);font-weight:300;font-size:.78rem;margin-left:.25rem">FITNESS</span>
+        </span>
+      </a>
+      <nav style="display:flex;align-items:center;gap:.15rem">
+        <a href="#bento" class="nav-link">Attività</a>
+        <a href="#bento" class="nav-link">Abbonamenti</a>
+        <a href="#bento" class="nav-link">Sedi</a>
+      </nav>
+      <a href="#" class="btn-hdr" onclick="openModal('booking')">Prova gratis</a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero-section">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:1;max-width:56rem;padding-top:5rem">
+    <div class="afi" style="display:inline-flex;align-items:center;gap:.5rem;padding:.38rem 1rem;
+         border-radius:9999px;border:1px solid rgba(196,0,66,.3);background:rgba(196,0,66,.07);
+         color:rgba(255,100,130,.9);font-size:.78rem;font-weight:500;margin-bottom:2rem">
+      <span style="width:6px;height:6px;border-radius:50%;background:#C40042;animation:pulse 2s infinite"></span>
+      Macerata &amp; Montecassiano — Benessere a 360°
+    </div>
+    <h1 class="afu" style="font-family:'Space Grotesk',sans-serif;font-weight:800;
+        font-size:clamp(3.2rem,8.5vw,6.5rem);line-height:.92;letter-spacing:-.03em;margin-bottom:1.5rem">
+      Accendi<br/><span style="color:#C40042">la tua</span><br/>energia.
+    </h1>
+    <p class="afu" style="color:rgba(255,255,255,.45);font-size:1.05rem;max-width:30rem;
+       margin:0 auto 2.5rem;line-height:1.8;animation-delay:120ms">
+      Due club premium. Palestra, CrossFit, Reformer Pilates, Piscina e molto altro.
+    </p>
+    <div class="afu" style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;animation-delay:240ms">
+      <a href="#bento" class="btn-hdr" style="font-size:.95rem;padding:.75rem 2rem">
+        Scopri il club ↓
+      </a>
+      <a onclick="openModal('booking')" href="#" class="btn-hdr"
+         style="background:transparent;border:1.5px solid rgba(255,255,255,.2);font-size:.95rem;padding:.75rem 2rem">
+        Prova 7 giorni
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ BENTO GRID ══════════════ -->
+<section id="bento" style="padding:0 1rem 6rem">
+  <div style="max-width:80rem;margin:0 auto">
+
+    <!-- Label -->
+    <div class="reveal" style="margin-bottom:1.5rem">
+      <p style="font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--brand)">Il club</p>
+    </div>
+
+    <div class="bento reveal">
+
+      <!-- ▌HERO — Video/Gym reel ▐ -->
+      <div class="bc bc-hero" onclick="openModal('video')">
+        <img class="bc-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&auto=format&fit=crop&q=80" alt="Gym"/>
+        <div class="bc-overlay"></div>
+        <div class="bc-content">
+          <div class="play-btn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M5 3l9 5-9 5V3z" fill="white"/>
+            </svg>
+          </div>
+          <div class="bc-label">Il club</div>
+          <div class="bc-title" style="font-size:clamp(2rem,4vw,3.2rem);max-width:18rem">
+            Dove il corpo si muove,<br/>la mente si accende.
+          </div>
+          <p class="bc-sub" style="max-width:26rem;margin-top:.6rem">
+            Attrezzature Technogym di ultima generazione, istruttori certificati, community autentica.
+          </p>
+          <div class="open-chip" style="width:fit-content;margin-top:1.5rem">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M5 3l9 5-9 5V3z" fill="currentColor"/>
+            </svg>
+            Guarda il reel
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▌STATS▐ -->
+      <div class="bc bc-stats" style="padding:1.75rem;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.75rem">Community</p>
+          <div class="stat-num red" data-target="500" data-suffix="+">0+</div>
+          <div style="color:rgba(255,255,255,.4);font-size:.8rem;margin-top:.3rem">Membri attivi</div>
+        </div>
+        <div>
+          <div style="display:flex;gap:.75rem;align-items:flex-end">
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.6rem;color:#fff">2</div>
+              <div style="color:rgba(255,255,255,.35);font-size:.72rem">Club</div>
+            </div>
+            <div style="width:1px;height:2rem;background:rgba(255,255,255,.08)"></div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.6rem;color:#fff">30+</div>
+              <div style="color:rgba(255,255,255,.35);font-size:.72rem">Corsi/sett.</div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-dots">
+          <div class="stat-dot active"></div>
+          <div class="stat-dot" style="animation-delay:.4s"></div>
+          <div class="stat-dot" style="animation-delay:.8s"></div>
+        </div>
+      </div>
+
+      <!-- ▌CTA — Prova gratis▐ -->
+      <div class="bc bc-cta" onclick="openModal('booking')" style="padding:1.75rem;display:flex;flex-direction:column">
+        <div style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.6rem">Inizia oggi</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.7rem;line-height:1.1;letter-spacing:-.02em">Prova<br/>7 giorni<br/>gratis.</div>
+        <div style="color:rgba(255,255,255,.6);font-size:.78rem;margin-top:.5rem">Nessuna carta richiesta</div>
+        <div class="cta-arrow">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M4 8h8M9.5 5l3 3-3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ▌CROSSFIT▐ -->
+      <div class="bc bc-cf" onclick="openModal('crossfit')">
+        <img class="bc-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=80" alt="CrossFit"/>
+        <div class="bc-overlay"></div>
+        <div class="bc-content-bottom">
+          <div class="bc-label">Box CrossFit</div>
+          <div class="bc-title" style="font-size:1.6rem">CrossFit<br/>Macerata</div>
+          <p class="bc-sub" style="font-size:.78rem">450m² dedicati. Ogni giorno.</p>
+          <div class="open-chip" style="width:fit-content;margin-top:.75rem">
+            Scopri
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▌ABBONAMENTI▐ -->
+      <div class="bc bc-abbo" onclick="openModal('abbonamenti')"
+           style="padding:1.75rem;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="bc-label">Abbonamenti</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:-.02em">
+              Il piano giusto<br/>per te.
+            </div>
+          </div>
+          <div class="open-chip" style="margin-top:0">
+            Vedi tutti
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div style="display:flex;gap:.625rem;margin-top:1rem">
+          <div class="plan-pill">
+            <div class="plan-pill-name">Base</div>
+            <div class="plan-pill-price">€39</div>
+          </div>
+          <div class="plan-pill featured">
+            <div class="plan-pill-name" style="color:rgba(196,0,66,.8)">Plus ✦</div>
+            <div class="plan-pill-price" style="color:#C40042">€59</div>
+          </div>
+          <div class="plan-pill">
+            <div class="plan-pill-name">Premium</div>
+            <div class="plan-pill-price">€89</div>
+          </div>
+          <div class="plan-pill">
+            <div class="plan-pill-name">Personal</div>
+            <div class="plan-pill-price">€120</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▌REFORMER▐ -->
+      <div class="bc bc-rifo" onclick="openModal('reformer')">
+        <img class="bc-img" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=80" alt="Pilates Reformer"/>
+        <div class="bc-overlay"></div>
+        <div class="bc-content-bottom">
+          <div class="bc-label">Movimento consapevole</div>
+          <div class="bc-title" style="font-size:1.5rem">Reformer<br/>Pilates</div>
+          <p class="bc-sub" style="font-size:.78rem">6 macchine Peak Pilates. 120m².</p>
+          <div class="open-chip" style="width:fit-content;margin-top:.75rem">
+            Scopri
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▌PISCINA▐ -->
+      <div class="bc bc-pisc" onclick="openModal('piscina')">
+        <img class="bc-img" src="https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&auto=format&fit=crop&q=80" alt="Piscina"/>
+        <div class="bc-overlay"></div>
+        <div class="bc-content-bottom">
+          <div class="bc-label">Aqua</div>
+          <div class="bc-title" style="font-size:1.3rem">Piscina &<br/>Scuola Nuoto</div>
+          <div class="open-chip" style="width:fit-content;margin-top:.625rem;font-size:.7rem">
+            Scopri
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+              <path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▌ORARI▐ -->
+      <div class="bc bc-orari" onclick="openModal('orari')" style="padding:1.5rem;display:flex;flex-direction:column">
+        <div class="bc-label" style="margin-bottom:.75rem">Apertura</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.875rem">Orari Macerata</div>
+        <div style="flex:1">
+          <div class="orari-row">
+            <span class="orari-day">Lun – Ven</span>
+            <span class="orari-time">06:30 – 22:30</span>
+          </div>
+          <div class="orari-row">
+            <span class="orari-day">Sabato</span>
+            <span class="orari-time">08:00 – 20:00</span>
+          </div>
+          <div class="orari-row">
+            <span class="orari-day">Domenica</span>
+            <span class="orari-time">09:00 – 14:00</span>
+          </div>
+        </div>
+        <div class="open-chip" style="width:fit-content;margin-top:.75rem;font-size:.7rem">
+          Planning completo
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+            <path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div><!-- /bento -->
+  </div>
+</section>
+
+
+<!-- ══════════════ MODALS ══════════════ -->
+
+<!-- Backdrop -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+
+  <!-- VIDEO MODAL -->
+  <div class="modal" id="modal-video" style="display:none;max-width:760px">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="video-wrap">
+      <!-- Video YouTube placeholder — sostituisci VIDEO_ID con l'ID del vostro reel -->
+      <iframe id="yt-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+      <!-- Fallback immagine se non hai video -->
+      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&auto=format&fit=crop&q=80"
+           style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:20px 20px 0 0"
+           id="video-fallback"/>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag">Lume Fitness Club</div>
+      <div class="modal-title">Due club.<br/>Un'unica passione.</div>
+      <p class="modal-desc">Lume Macerata e Lume Montecassiano — spazi progettati per ispirarti ogni giorno. Attrezzature Technogym, istruttori certificati, community autentica.</p>
+      <a href="#" class="modal-cta" onclick="closeAllModals();openModal('booking');return false">
+        Prenota una visita gratuita
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- CROSSFIT MODAL -->
+  <div class="modal" id="modal-crossfit" style="display:none">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <img class="modal-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=80" alt="CrossFit"/>
+    <div class="modal-body">
+      <div class="modal-tag">Box CrossFit · Macerata</div>
+      <div class="modal-title">CrossFit Lume</div>
+      <p class="modal-desc">Il nostro Box da 450m² è attrezzato con vogatori, air bike, bikeerg, skierg, bilancieri e bumper plates. Ogni WOD è guidato da coach certificati che adattano l'allenamento a qualsiasi livello.</p>
+      <div class="modal-features">
+        <div class="modal-feature"><span></span>Box 450m²</div>
+        <div class="modal-feature"><span></span>Coach certificati</div>
+        <div class="modal-feature"><span></span>Vogatori & Air Bike</div>
+        <div class="modal-feature"><span></span>Tutti i livelli</div>
+        <div class="modal-feature"><span></span>WOD quotidiani</div>
+        <div class="modal-feature"><span></span>Community attiva</div>
+      </div>
+      <a href="https://www.lumefitness.it/crossfit/" target="_blank" class="modal-cta">
+        Scopri CrossFit Lume
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- REFORMER MODAL -->
+  <div class="modal" id="modal-reformer" style="display:none">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <img class="modal-img" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop&q=80" alt="Reformer"/>
+    <div class="modal-body">
+      <div class="modal-tag">Movimento consapevole · Macerata</div>
+      <div class="modal-title">Reformer Pilates</div>
+      <p class="modal-desc">120m² dedicati esclusivamente al Reformer Pilates. Le nostre macchine Peak Pilates di ultima generazione ti permettono di lavorare in profondità: rinforzi il core, migliori la postura, aumenti flessibilità e trovi armonia tra mente e corpo.</p>
+      <div class="modal-features">
+        <div class="modal-feature"><span></span>6 Reformer Peak Pilates</div>
+        <div class="modal-feature"><span></span>Sala dedicata 120m²</div>
+        <div class="modal-feature"><span></span>Postura & Core</div>
+        <div class="modal-feature"><span></span>Dolore alla schiena</div>
+        <div class="modal-feature"><span></span>Flessibilità</div>
+        <div class="modal-feature"><span></span>Tutti i livelli</div>
+      </div>
+      <a href="https://www.lumefitness.it/reformer/" target="_blank" class="modal-cta">
+        Scopri il Reformer
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- PISCINA MODAL -->
+  <div class="modal" id="modal-piscina" style="display:none">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <img class="modal-img" src="https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&auto=format&fit=crop&q=80" alt="Piscina"/>
+    <div class="modal-body">
+      <div class="modal-tag">Aqua · Entrambe le sedi</div>
+      <div class="modal-title">Piscina &<br/>Scuola Nuoto</div>
+      <p class="modal-desc">Nuoto libero, acqua fitness e Scuola Nuoto per Bambini e Ragazzi. L'acqua riduce l'impatto sulle articolazioni rendendo l'allenamento accessibile a tutti, dall'atleta al principiante.</p>
+      <div class="modal-features">
+        <div class="modal-feature"><span></span>Nuoto libero</div>
+        <div class="modal-feature"><span></span>Acqua Fitness</div>
+        <div class="modal-feature"><span></span>Scuola Nuoto Bambini</div>
+        <div class="modal-feature"><span></span>Istruttori FIN</div>
+        <div class="modal-feature"><span></span>Entrambe le sedi</div>
+        <div class="modal-feature"><span></span>Tutti i livelli</div>
+      </div>
+      <a href="https://www.lumefitness.it/scuola-nuoto-bambini/" target="_blank" class="modal-cta">
+        Scopri la Scuola Nuoto
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ABBONAMENTI MODAL -->
+  <div class="modal" id="modal-abbonamenti" style="display:none">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-body">
+      <div class="modal-tag">Piani</div>
+      <div class="modal-title">Abbonamenti</div>
+      <p class="modal-desc" style="margin-bottom:1.5rem">Prima settimana gratuita, nessuna carta richiesta. Disdici quando vuoi.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        <div class="plan-card">
+          <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">Base</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;margin-bottom:.25rem">€39<span style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.35)">/mese</span></div>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.6">Accesso sala pesi, zona cardio, 2 corsi/sett.</p>
+        </div>
+        <div class="plan-card featured">
+          <div style="font-size:.68rem;color:rgba(196,0,66,.8);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">Plus ✦ Più popolare</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;color:#C40042;margin-bottom:.25rem">€59<span style="font-size:.9rem;font-weight:400;color:rgba(196,0,66,.5)">/mese</span></div>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.6">Corsi illimitati, entrambe le sedi, app prenotazioni, 1 PT/mese.</p>
+        </div>
+        <div class="plan-card">
+          <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">Premium</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;margin-bottom:.25rem">€89<span style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.35)">/mese</span></div>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.6">Tutto di Plus + Piscina & SPA + PT illimitato.</p>
+        </div>
+        <div class="plan-card">
+          <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">Personal</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;margin-bottom:.25rem">€120<span style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.35)">/mese</span></div>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.6">4 sessioni PT/mese + piano allenamento custom.</p>
+        </div>
+      </div>
+      <a href="https://lumefitness.perfectgym.com/ClientPortal2/#/Registration" target="_blank" class="modal-cta">
+        Abbonati online
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ORARI MODAL -->
+  <div class="modal" id="modal-orari" style="display:none">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-body">
+      <div class="modal-tag">Orari</div>
+      <div class="modal-title" style="margin-bottom:1.5rem">Planning orari</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+        <div>
+          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#C40042;margin-bottom:.875rem">Macerata</div>
+          <div class="orari-row"><span class="orari-day">Lun – Ven</span><span class="orari-time">06:30 – 22:30</span></div>
+          <div class="orari-row"><span class="orari-day">Sabato</span><span class="orari-time">08:00 – 20:00</span></div>
+          <div class="orari-row"><span class="orari-day">Domenica</span><span class="orari-time">09:00 – 14:00</span></div>
+        </div>
+        <div>
+          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#C40042;margin-bottom:.875rem">Montecassiano</div>
+          <div class="orari-row"><span class="orari-day">Lun – Ven</span><span class="orari-time">07:00 – 22:00</span></div>
+          <div class="orari-row"><span class="orari-day">Sabato</span><span class="orari-time">08:30 – 19:00</span></div>
+          <div class="orari-row"><span class="orari-day">Domenica</span><span class="orari-time">Chiuso</span></div>
+        </div>
+      </div>
+      <a href="https://lumefitness.perfectgym.com/ClientPortal2/#/Classes/1/List" target="_blank" class="modal-cta">
+        Vedi planning completo
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- BOOKING MODAL -->
+  <div class="modal" id="modal-booking" style="display:none">
+    <button class="modal-close" onclick="closeAllModals()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-body">
+      <div class="modal-tag">Prova gratuita</div>
+      <div class="modal-title" style="margin-bottom:.5rem">7 giorni gratis.</div>
+      <p class="modal-desc" style="margin-bottom:1.75rem">Accesso completo al club. Nessuna carta, nessun impegno.</p>
+      <form id="booking-form" onsubmit="submitBooking(event)" style="display:flex;flex-direction:column;gap:.875rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+          <div>
+            <label style="font-size:.72rem;color:rgba(255,255,255,.45);display:block;margin-bottom:.4rem">Nome *</label>
+            <input required type="text" placeholder="Marco" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem .9rem;color:#fff;font-size:.875rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(196,0,66,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"/>
+          </div>
+          <div>
+            <label style="font-size:.72rem;color:rgba(255,255,255,.45);display:block;margin-bottom:.4rem">Cognome *</label>
+            <input required type="text" placeholder="Rossi" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem .9rem;color:#fff;font-size:.875rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(196,0,66,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"/>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:.72rem;color:rgba(255,255,255,.45);display:block;margin-bottom:.4rem">Email *</label>
+          <input required type="email" placeholder="marco@email.it" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem .9rem;color:#fff;font-size:.875rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(196,0,66,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"/>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+          <div>
+            <label style="font-size:.72rem;color:rgba(255,255,255,.45);display:block;margin-bottom:.4rem">Sede *</label>
+            <select required style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem .9rem;color:#fff;font-size:.875rem;outline:none;cursor:pointer">
+              <option value="" disabled selected>Scegli</option>
+              <option>Macerata</option>
+              <option>Montecassiano</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.72rem;color:rgba(255,255,255,.45);display:block;margin-bottom:.4rem">Interesse *</label>
+            <select required style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem .9rem;color:#fff;font-size:.875rem;outline:none;cursor:pointer">
+              <option value="" disabled selected>Scegli</option>
+              <option>Palestra</option>
+              <option>CrossFit</option>
+              <option>Reformer Pilates</option>
+              <option>Piscina</option>
+              <option>Tutto</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="modal-cta" style="margin-top:.5rem">
+          Richiedi il Guest Pass gratuito
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p style="text-align:center;font-size:.72rem;color:rgba(255,255,255,.2)">
+          Inviando accetti la <a href="#" style="color:rgba(255,255,255,.35)">Privacy Policy</a>
+        </p>
+      </form>
+      <!-- Success state (nascosto) -->
+      <div id="booking-success" style="display:none;text-align:center;padding:2rem 0">
+        <div style="width:4rem;height:4rem;border-radius:50%;background:rgba(196,0,66,.15);border:1.5px solid rgba(196,0,66,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#C40042" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:.5rem">Richiesta inviata!</div>
+        <p style="color:rgba(255,255,255,.45);font-size:.875rem">Ti contatteremo entro 24 ore per confermare il tuo Guest Pass.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /backdrop -->
+
+
+<!-- ══════════════ FOOTER MINIMAL ══════════════ -->
+<footer style="border-top:1px solid rgba(255,255,255,.05);padding:2.5rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;max-width:80rem;margin:0 auto">
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="15" stroke="#C40042" stroke-width="1.5"/>
+      <path d="M16 6L16 26 M8 12L24 12 M8 20L24 20" stroke="#C40042" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="3" fill="#C40042"/>
+    </svg>
+    <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem">
+      <span style="color:#C40042">LUME</span>
+      <span style="color:rgba(255,255,255,.35);font-weight:300;font-size:.75rem;margin-left:.2rem">FITNESS</span>
+    </span>
+  </div>
+  <p style="color:rgba(255,255,255,.2);font-size:.75rem">© 2025 Lume Fitness Club · Macerata & Montecassiano</p>
+  <div style="display:flex;gap:1.5rem">
+    <a href="https://www.facebook.com/lumefitnessclub" target="_blank" style="color:rgba(255,255,255,.25);font-size:.75rem;text-decoration:none">Facebook</a>
+    <a href="#" style="color:rgba(255,255,255,.25);font-size:.75rem;text-decoration:none">Privacy</a>
+  </div>
+</footer>
+
+
+<script>
+  // ── SCROLL ────────────────────────────────────────────────────────────────
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('s', window.scrollY > 50);
+  }, { passive: true });
+
+  // Reveal
+  const revealObs = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) e.target.classList.add('v'); });
+  }, { threshold: .1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── COUNTER ANIMATION ─────────────────────────────────────────────────────
+  function animateCounter(el, target, suffix = '', duration = 1800) {
+    const start = performance.now();
+    const update = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Easing: easeOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const value = Math.round(eased * target);
+      el.textContent = value + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const counterObs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        animateCounter(el, target, suffix);
+        counterObs.unobserve(el);
+      }
+    });
+  }, { threshold: .5 });
+  document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
+
+  // ── MODAL SYSTEM ──────────────────────────────────────────────────────────
+  const backdrop = document.getElementById('modal-backdrop');
+
+  function openModal(id) {
+    closeAllModals(false);
+    const m = document.getElementById('modal-' + id);
+    if (!m) return;
+    m.style.display = 'block';
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // YouTube: costruisci src al click per evitare autoplay prematuro
+    if (id === 'video') {
+      // Sostituisci con il vostro YouTube Video ID
+      // const ytId = 'IL_VOSTRO_VIDEO_ID';
+      // document.getElementById('yt-iframe').src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
+      // Per ora mostra solo l'immagine fallback
+    }
+  }
+
+  function closeAllModals(restoreScroll = true) {
+    document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+    backdrop.classList.remove('open');
+    if (restoreScroll) document.body.style.overflow = '';
+    // Stop YouTube
+    const ytIframe = document.getElementById('yt-iframe');
+    if (ytIframe) ytIframe.src = '';
+  }
+
+  function closeModal(e) {
+    if (e.target === backdrop) closeAllModals();
+  }
+
+  // ESC key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
+
+  // ── BOOKING FORM ──────────────────────────────────────────────────────────
+  function submitBooking(e) {
+    e.preventDefault();
+    const form = document.getElementById('booking-form');
+    const success = document.getElementById('booking-success');
+    form.style.display = 'none';
+    success.style.display = 'block';
+    // Qui integrare con n8n.lumeflow.it/form/guest-pass o Supabase
+  }
+</script>
+</body>
+</html>

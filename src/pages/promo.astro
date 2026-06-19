@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PromoSedi from '../components/react/PromoFlipCards';
+---
+
+<Layout
+  title="Le nostre sedi"
+  description="Scegli la tua sede Lume Fitness: Macerata, Montecassiano e le nuove aperture 2026. Clicca un club per scoprire tutte le caratteristiche."
+>
+  <main>
+    <PromoSedi client:load />
+  </main>
+</Layout>

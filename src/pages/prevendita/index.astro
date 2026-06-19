@@ -1,0 +1,185 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import PrevenditaForm from '../../components/react/PrevenditaForm';
+
+const cancelled = Astro.url.searchParams.get('cancelled') === 'true';
+---
+
+<Layout
+  title="Prevendita 2026/27 — Early Bird"
+  description="Blocca il tuo abbonamento Lume Fitness 2026/27 a prezzo early bird. 4 sedi, nuove aperture a Piediripa e Centro Macerata. Posti limitati."
+>
+  <!-- Nessun Header/Footer — landing focalizzata -->
+  <main style="min-height:100vh;background:#080608;color:#fff;font-family:'Inter',sans-serif">
+
+    <!-- ── CANCELLED BANNER ── -->
+    {cancelled && (
+      <div style="background:rgba(239,68,68,.1);border-bottom:1px solid rgba(239,68,68,.2);padding:.75rem 1.5rem;text-align:center;font-size:.84rem;color:#fca5a5">
+        Il pagamento è stato annullato. Puoi riprovare quando vuoi.
+      </div>
+    )}
+
+    <!-- ── NAV MINIMAL ── -->
+    <nav style="padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;max-width:72rem;margin:0 auto">
+      <a href="/" style="display:flex;align-items:center;gap:.45rem;text-decoration:none">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#C40042" stroke-width="1.5"/>
+          <path d="M16 6L16 26M8 12L24 12M8 20L24 20" stroke="#C40042" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="3" fill="#C40042"/>
+        </svg>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem">
+          <span style="color:#C40042">LUME</span>
+          <span style="color:rgba(255,255,255,.35);font-weight:300;font-size:.72rem;margin-left:.2rem">FITNESS</span>
+        </span>
+      </a>
+      <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:rgba(255,255,255,.35)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Pagamento sicuro via Stripe
+      </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section style="padding:3rem 1.5rem 2rem;max-width:72rem;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start">
+
+      <!-- Left: copy -->
+      <div>
+        <!-- Early bird badge -->
+        <div style="display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;border-radius:9999px;border:1px solid rgba(196,0,66,.35);background:rgba(196,0,66,.08);margin-bottom:1.75rem">
+          <span style="width:7px;height:7px;border-radius:50%;background:#C40042;animation:pulse 2s infinite"></span>
+          <span style="font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,120,150,.95)">Early Bird · Posti limitati</span>
+        </div>
+
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:.93;letter-spacing:-.03em;margin-bottom:1.25rem">
+          Nuova stagione<br/><span style="color:#C40042">2026/27.</span><br/>Blocca ora.
+        </h1>
+
+        <p style="color:rgba(255,255,255,.5);font-size:1rem;line-height:1.82;margin-bottom:2rem;max-width:28rem">
+          Abbonati in prevendita e accedi a tariffe early bird esclusive. I prezzi definitivi saranno comunicati presto — chi si prenota ora ha la priorità e il prezzo più basso garantito.
+        </p>
+
+        <!-- Benefits -->
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2.5rem">
+          {[
+            ['Prezzo early bird', 'Il migliore dell\'anno — solo per chi prenota ora'],
+            ['4 sedi disponibili', '2 già attive + 2 nuove aperture 2026'],
+            ['Priorità assoluta', 'Scegli la sede e il piano prima degli altri'],
+            ['Nessun rischio', 'Se cambi idea prima dell\'apertura, rimborso completo'],
+          ].map(([title, desc]) => (
+            <li style="display:flex;gap:.875rem;align-items:flex-start">
+              <div style="width:1.5rem;height:1.5rem;border-radius:50%;background:rgba(196,0,66,.15);border:1px solid rgba(196,0,66,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem">
+                <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#C40042" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:600;font-size:.875rem">{title}</div>
+                <div style="color:rgba(255,255,255,.4);font-size:.8rem;margin-top:.15rem">{desc}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Nuove sedi highlight -->
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.25rem 1.5rem">
+          <p style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C40042;margin-bottom:.875rem">Novità 2026/27</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+            {[
+              { name: 'Piediripa', desc: 'Zona est di Macerata', new: true },
+              { name: 'Centro Macerata', desc: 'In pieno centro', new: true },
+              { name: 'Piazzale Fattorini', desc: 'Sede storica', new: false },
+              { name: 'Montecassiano', desc: 'Zona industriale', new: false },
+            ].map(s => (
+              <div style="display:flex;align-items:flex-start;gap:.6rem">
+                <svg width="12" height="12" fill={s.new ? '#C40042' : 'rgba(255,255,255,.25)'} viewBox="0 0 24 24" style="flex-shrink:0;margin-top:.15rem">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <div>
+                  <div style={`font-size:.8rem;font-weight:600;color:${s.new ? '#fff' : 'rgba(255,255,255,.55)'}`}>
+                    {s.name}
+                    {s.new && <span style="margin-left:.4rem;font-size:.6rem;background:rgba(196,0,66,.2);color:#ff6080;border:1px solid rgba(196,0,66,.3);padding:.1rem .45rem;border-radius:9999px;vertical-align:middle">NUOVO</span>}
+                  </div>
+                  <div style="font-size:.72rem;color:rgba(255,255,255,.3)">{s.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div style="position:sticky;top:2rem">
+        <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:2rem;box-shadow:0 32px 80px rgba(0,0,0,.5)">
+          <div style="margin-bottom:1.5rem">
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;margin-bottom:.35rem">Prenota il tuo posto</h2>
+            <p style="color:rgba(255,255,255,.4);font-size:.84rem">Compila il form e finalizza il pagamento in sicurezza con Stripe.</p>
+          </div>
+
+          <!-- Prezzi TBD notice -->
+          <div style="background:rgba(196,0,66,.07);border:1px solid rgba(196,0,66,.2);border-radius:12px;padding:.875rem 1rem;margin-bottom:1.5rem;display:flex;gap:.75rem;align-items:flex-start">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:.1rem">
+              <circle cx="12" cy="12" r="10" stroke="#C40042" stroke-width="1.5"/>
+              <path d="M12 8v4M12 16h.01" stroke="#C40042" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <p style="font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.6">
+              <strong style="color:rgba(255,255,255,.8)">Listini in definizione.</strong> Registrandoti ora entri in lista d'attesa con priorità early bird. Sarai il primo a ricevere i prezzi e potrai bloccare il posto con un click.
+            </p>
+          </div>
+
+          <PrevenditaForm client:load />
+        </div>
+
+        <!-- Trust badges -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:1.25rem;flex-wrap:wrap">
+          {[
+            ['🔒', 'Pagamento sicuro'],
+            ['↩', 'Rimborso garantito'],
+            ['⚡', 'Conferma immediata'],
+          ].map(([icon, label]) => (
+            <div style="display:flex;align-items:center;gap:.38rem;font-size:.72rem;color:rgba(255,255,255,.3)">
+              <span>{icon}</span>{label}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SOCIAL PROOF ── -->
+    <section style="padding:4rem 1.5rem;max-width:72rem;margin:0 auto;border-top:1px solid rgba(255,255,255,.05)">
+      <div style="text-align:center;margin-bottom:2.5rem">
+        <p style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C40042;margin-bottom:.5rem">Già ci conoscono</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.6rem">500+ membri si fidano di noi.</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+        {[
+          { quote: 'Lume ha cambiato completamente la mia routine. Strutture di un livello che non trovavi a Macerata prima.', name: 'Marco T.', club: 'Macerata' },
+          { quote: 'Il CrossFit Lume è top. Coach preparati, programmazione seria, community fantastica.', name: 'Luca B.', club: 'Macerata' },
+          { quote: 'Il Reformer ha risolto i miei problemi alla schiena. Non me ne andrei mai.', name: 'Giulia F.', club: 'Macerata' },
+        ].map(t => (
+          <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.5rem">
+            <div style="display:flex;gap:2px;margin-bottom:.875rem">
+              {Array.from({length:5}).map(() => <span style="color:#C40042;font-size:.85rem">★</span>)}
+            </div>
+            <p style="font-size:.875rem;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:1rem">"{t.quote}"</p>
+            <div style="font-weight:600;font-size:.82rem">{t.name}</div>
+            <div style="font-size:.74rem;color:rgba(255,255,255,.3)">{t.club}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ── FOOTER MINIMAL ── -->
+    <footer style="border-top:1px solid rgba(255,255,255,.05);padding:1.5rem;text-align:center">
+      <p style="color:rgba(255,255,255,.2);font-size:.72rem">
+        © 2025 Lume Fitness Club · <a href="/privacy" style="color:rgba(255,255,255,.3)">Privacy</a> · <a href="mailto:info@lumefitness.it" style="color:rgba(255,255,255,.3)">info@lumefitness.it</a>
+      </p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+  @media (max-width: 768px) {
+    section:has(h1) { grid-template-columns: 1fr !important; gap: 2rem !important; }
+    div[style*="position:sticky"] { position: static !important; }
+  }
+</style>

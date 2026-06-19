@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { BLOG_POSTS } from '../../lib/data';
+---
+
+<Layout title="Blog & News" description="Articoli su fitness, nutrizione e novità di Lume Fitness Club.">
+  <Header />
+
+  <main class="pt-24">
+    <section class="py-16 px-4 sm:px-6">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal mb-14">
+          <p class="section-label mb-3">Blog & News</p>
+          <h1 class="section-title">Resta aggiornato.</h1>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {BLOG_POSTS.map((post, i) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="card p-7 block group reveal"
+              style={`transition-delay: ${i * 100}ms`}
+            >
+              <div class="flex items-center gap-2 mb-4">
+                <span class="text-xs font-semibold uppercase tracking-wide text-lume-300">{post.category}</span>
+                <span class="text-white/20 text-xs">·</span>
+                <span class="text-white/30 text-xs">{post.readTime} min</span>
+              </div>
+              <h2 class="font-display font-bold text-xl mb-3 group-hover:text-lume-300 transition-colors leading-snug">
+                {post.title}
+              </h2>
+              <p class="text-white/50 text-sm leading-relaxed mb-5">{post.excerpt}</p>
+              <div class="flex items-center justify-between text-xs text-white/30">
+                <time datetime={post.publishedAt}>
+                  {new Date(post.publishedAt).toLocaleDateString('it-IT', { day:'2-digit', month:'long', year:'numeric' })}
+                </time>
+                <span class="text-lume-300 group-hover:translate-x-1 transition-transform inline-block">→</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

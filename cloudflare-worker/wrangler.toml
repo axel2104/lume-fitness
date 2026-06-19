@@ -1,0 +1,15 @@
+name = "lume-prevendita-worker"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Worker gratuito: 100.000 richieste/giorno — più che sufficiente
+# Per attivare i secrets:
+#   wrangler secret put PG_URL
+#   wrangler secret put PG_LOGIN
+#   wrangler secret put PG_PASSWORD
+#   wrangler secret put ALLOWED_ORIGIN
+
+[vars]
+# Variabili non sensibili (sovrascrivibili con secrets in prod)
+ALLOWED_ORIGIN = "https://lumefitness.it"

@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts — aggiungi nel <head> del layout */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --accent: #C40042;
+    --accent-dim: rgba(196, 0, 66, 0.12);
+    --surface: #111111;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-dark-900 text-white font-sans;
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(196,0,66,0.05), transparent);
+  }
+
+  ::selection {
+    background: rgba(194,255,0,0.25);
+    color: white;
+  }
+
+  /* Scrollbar minimalista */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #111; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-lume-300 text-dark-900 font-semibold rounded-full
+           transition-all duration-200 hover:bg-lume-200 hover:scale-105 active:scale-95;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-medium rounded-full
+           transition-all duration-200 hover:border-lume-300 hover:text-lume-300 hover:scale-105 active:scale-95;
+  }
+
+  .card {
+    @apply bg-dark-800 border border-white/[0.06] rounded-2xl overflow-hidden
+           transition-all duration-300 hover:border-white/[0.12] hover:-translate-y-1;
+  }
+
+  .section-label {
+    @apply text-lume-300 text-xs font-semibold uppercase tracking-widest;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-display font-bold text-white leading-tight;
+  }
+
+  /* Animazioni scroll-triggered via Intersection Observer */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Stagger delay utilities */
+  .delay-100 { transition-delay: 100ms; }
+  .delay-200 { transition-delay: 200ms; }
+  .delay-300 { transition-delay: 300ms; }
+  .delay-400 { transition-delay: 400ms; }
+  .delay-500 { transition-delay: 500ms; }
+}

@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BookingForm from '../components/react/BookingForm';
+
+const plan = Astro.url.searchParams.get('plan') ?? '';
+---
+
+<Layout title="Prenota" description="Prenota la tua prima sessione gratuita a Lume Fitness Club. Nessun impegno, nessuna carta di credito.">
+  <Header />
+
+  <main class="pt-24">
+    <section class="py-16 px-4 sm:px-6">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+          <!-- Left: info -->
+          <div class="reveal-left">
+            <p class="section-label mb-3">Prenota ora</p>
+            <h1 class="section-title mb-6">Inizia il<br/>tuo viaggio.</h1>
+            <p class="text-white/50 leading-relaxed mb-10">
+              Prima sessione completamente gratuita. Nessuna carta richiesta, nessun obbligo.
+              Un nostro istruttore ti accoglierà e ti mostrerà tutto il club.
+            </p>
+
+            <div class="space-y-5">
+              {[
+                { icon: '✓', title: 'Tour del club', desc: 'Visita guidata alle strutture e presentazione dei servizi.' },
+                { icon: '✓', title: 'Valutazione iniziale', desc: 'Breve analisi del tuo livello e degli obiettivi.' },
+                { icon: '✓', title: 'Prova un corso', desc: 'Partecipa a un corso di gruppo a tua scelta.' },
+                { icon: '✓', title: 'Piano personalizzato', desc: 'Ricevi un piano di allenamento pensato per te.' },
+              ].map(({ icon, title, desc }) => (
+                <div class="flex gap-4">
+                  <div class="w-8 h-8 rounded-full bg-lume-300/15 flex items-center justify-center text-lume-300 font-bold text-sm flex-shrink-0 mt-0.5">
+                    {icon}
+                  </div>
+                  <div>
+                    <div class="font-medium text-white">{title}</div>
+                    <div class="text-white/40 text-sm mt-0.5">{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-10 p-5 bg-dark-800 border border-white/[0.06] rounded-2xl">
+              <p class="text-xs text-white/30 uppercase tracking-widest mb-3">Orari disponibili</p>
+              <div class="grid grid-cols-2 gap-3 text-sm text-white/60">
+                <div><span class="text-white/30 block text-xs">Lun – Ven</span>08:00 – 20:30</div>
+                <div><span class="text-white/30 block text-xs">Sabato</span>09:00 – 17:00</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: form -->
+          <div class="card p-8 reveal-right">
+            <h2 class="font-display font-bold text-xl mb-6">Compila il modulo</h2>
+            <BookingForm client:load defaultPlan={plan} />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

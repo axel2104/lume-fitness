@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lume Fitness — Prevendita 2026/27</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--br:#C40042}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{background:#080608;color:#fff;font-family:'Inter',sans-serif;min-height:100vh}
+::selection{background:rgba(196,0,66,.28)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:2px}
+
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.afu{animation:fadeUp .65s ease forwards}
+
+.inp{
+  width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:11px;padding:.7rem 1rem;color:#fff;font-size:.875rem;outline:none;
+  transition:border-color .2s;font-family:'Inter',sans-serif;
+}
+.inp:focus{border-color:rgba(196,0,66,.55)}
+.inp::placeholder{color:rgba(255,255,255,.25)}
+select.inp{cursor:pointer;background:#0e0b0e}
+
+.lbl{font-size:.71rem;font-weight:500;color:rgba(255,255,255,.4);display:block;margin-bottom:.38rem;letter-spacing:.02em}
+
+/* Radio sede/piano */
+.rc{display:flex;flex-direction:column;gap:.18rem;padding:.72rem 1rem;border-radius:11px;cursor:pointer;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);transition:all .2s}
+.rc.sel{border-color:rgba(196,0,66,.6);background:rgba(196,0,66,.1)}
+.rc:hover:not(.sel){border-color:rgba(255,255,255,.18)}
+
+.btn-p{
+  width:100%;padding:1rem;background:var(--br);color:#fff;font-weight:700;font-size:.975rem;
+  border-radius:13px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;
+  box-shadow:0 8px 32px rgba(196,0,66,.35);transition:all .22s;
+}
+.btn-p:hover{background:#d8004a;transform:scale(1.02)}
+.btn-p:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.badge-new{
+  font-size:.58rem;font-weight:700;padding:.12rem .45rem;border-radius:9999px;letter-spacing:.05em;
+  background:rgba(196,0,66,.2);color:#ff6080;border:1px solid rgba(196,0,66,.3);vertical-align:middle;margin-left:.35rem;
+}
+
+/* Success */
+#success{display:none;text-align:center;padding:2.5rem 1rem}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav style="padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;max-width:72rem;margin:0 auto;border-bottom:1px solid rgba(255,255,255,.05)">
+  <a href="#" style="display:flex;align-items:center;gap:.45rem;text-decoration:none">
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="15" stroke="#C40042" stroke-width="1.5"/>
+      <path d="M16 6L16 26M8 12L24 12M8 20L24 20" stroke="#C40042" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="3" fill="#C40042"/>
+    </svg>
+    <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem">
+      <span style="color:#C40042">LUME</span>
+      <span style="color:rgba(255,255,255,.3);font-weight:300;font-size:.72rem;margin-left:.2rem">FITNESS</span>
+    </span>
+  </a>
+  <div style="display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:rgba(255,255,255,.32)">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="rgba(255,255,255,.38)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    Pagamento sicuro via Stripe
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main style="max-width:72rem;margin:0 auto;padding:3rem 1.5rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start">
+
+  <!-- ════ LEFT COPY ════ -->
+  <div>
+    <!-- Badge -->
+    <div class="afu" style="display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;border-radius:9999px;border:1px solid rgba(196,0,66,.32);background:rgba(196,0,66,.08);margin-bottom:1.75rem">
+      <span style="width:7px;height:7px;border-radius:50%;background:#C40042;animation:pulse 2s infinite"></span>
+      <span style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,120,150,.95)">Early Bird · Posti limitati</span>
+    </div>
+
+    <h1 class="afu" style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:.92;letter-spacing:-.03em;margin-bottom:1.25rem;animation-delay:80ms">
+      Nuova stagione<br/><span style="color:#C40042">2026/27.</span><br/>Blocca ora.
+    </h1>
+
+    <p class="afu" style="color:rgba(255,255,255,.48);font-size:.975rem;line-height:1.83;margin-bottom:2rem;max-width:30rem;animation-delay:160ms">
+      Abbonati in prevendita e accedi a tariffe early bird esclusive. I prezzi definitivi arriveranno presto — chi prenota ora ha la priorità e il prezzo più basso garantito.
+    </p>
+
+    <!-- Benefits -->
+    <ul class="afu" style="list-style:none;display:flex;flex-direction:column;gap:.8rem;margin-bottom:2.5rem;animation-delay:240ms">
+      <li style="display:flex;gap:.875rem;align-items:flex-start">
+        <div style="width:1.5rem;height:1.5rem;border-radius:50%;background:rgba(196,0,66,.15);border:1px solid rgba(196,0,66,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem">
+          <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#C40042" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:.875rem">Prezzo early bird</div>
+          <div style="color:rgba(255,255,255,.38);font-size:.79rem;margin-top:.12rem">Il migliore dell'anno — solo per chi prenota ora</div>
+        </div>
+      </li>
+      <li style="display:flex;gap:.875rem;align-items:flex-start">
+        <div style="width:1.5rem;height:1.5rem;border-radius:50%;background:rgba(196,0,66,.15);border:1px solid rgba(196,0,66,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem">
+          <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#C40042" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:.875rem">4 sedi disponibili</div>
+          <div style="color:rgba(255,255,255,.38);font-size:.79rem;margin-top:.12rem">2 già attive + 2 nuove aperture 2026</div>
+        </div>
+      </li>
+      <li style="display:flex;gap:.875rem;align-items:flex-start">
+        <div style="width:1.5rem;height:1.5rem;border-radius:50%;background:rgba(196,0,66,.15);border:1px solid rgba(196,0,66,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem">
+          <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#C40042" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:.875rem">Priorità assoluta</div>
+          <div style="color:rgba(255,255,255,.38);font-size:.79rem;margin-top:.12rem">Scegli la sede e il piano prima degli altri</div>
+        </div>
+      </li>
+      <li style="display:flex;gap:.875rem;align-items:flex-start">
+        <div style="width:1.5rem;height:1.5rem;border-radius:50%;background:rgba(196,0,66,.15);border:1px solid rgba(196,0,66,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem">
+          <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#C40042" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:.875rem">Nessun rischio</div>
+          <div style="color:rgba(255,255,255,.38);font-size:.79rem;margin-top:.12rem">Se cambi idea prima dell'apertura, rimborso completo</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Nuove sedi -->
+    <div class="afu" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.375rem 1.5rem;animation-delay:320ms">
+      <p style="font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C40042;margin-bottom:1rem">Novità 2026/27 — 4 Club</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem">
+        <div style="display:flex;align-items:flex-start;gap:.6rem">
+          <svg width="12" height="12" fill="#C40042" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:.15rem"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <div>
+            <div style="font-size:.82rem;font-weight:600">Piediripa <span class="badge-new">NUOVO</span></div>
+            <div style="font-size:.71rem;color:rgba(255,255,255,.3)">Zona est Macerata</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.6rem">
+          <svg width="12" height="12" fill="#C40042" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:.15rem"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <div>
+            <div style="font-size:.82rem;font-weight:600">Centro Macerata <span class="badge-new">NUOVO</span></div>
+            <div style="font-size:.71rem;color:rgba(255,255,255,.3)">In pieno centro</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.6rem">
+          <svg width="12" height="12" fill="rgba(255,255,255,.25)" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:.15rem"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <div>
+            <div style="font-size:.82rem;font-weight:600;color:rgba(255,255,255,.55)">Piazzale Fattorini</div>
+            <div style="font-size:.71rem;color:rgba(255,255,255,.28)">Sede storica Macerata</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.6rem">
+          <svg width="12" height="12" fill="rgba(255,255,255,.25)" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:.15rem"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <div>
+            <div style="font-size:.82rem;font-weight:600;color:rgba(255,255,255,.55)">Montecassiano</div>
+            <div style="font-size:.71rem;color:rgba(255,255,255,.28)">Zona industriale</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonianze mini -->
+    <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.875rem">
+      <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.1rem">
+        <div style="display:flex;gap:2px;margin-bottom:.6rem">★★★★★</div>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.58);line-height:1.65;margin-bottom:.75rem">"Strutture di un livello che non trovavi a Macerata prima."</p>
+        <div style="font-weight:600;font-size:.76rem">Marco T.</div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.28)">Macerata</div>
+      </div>
+      <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.1rem">
+        <div style="display:flex;gap:2px;margin-bottom:.6rem">★★★★★</div>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.58);line-height:1.65;margin-bottom:.75rem">"Il CrossFit Lume è il meglio della zona. Coach fantastici."</p>
+        <div style="font-weight:600;font-size:.76rem">Luca B.</div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.28)">Macerata</div>
+      </div>
+      <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.1rem">
+        <div style="display:flex;gap:2px;margin-bottom:.6rem">★★★★★</div>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.58);line-height:1.65;margin-bottom:.75rem">"Il Reformer ha risolto i miei problemi alla schiena."</p>
+        <div style="font-weight:600;font-size:.76rem">Giulia F.</div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.28)">Macerata</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ RIGHT FORM ════ -->
+  <div style="position:sticky;top:2rem">
+    <div style="background:#0e0b0e;border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:2rem;box-shadow:0 32px 80px rgba(0,0,0,.55)">
+
+      <div style="margin-bottom:1.5rem">
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;margin-bottom:.35rem">Prenota il tuo posto</h2>
+        <p style="color:rgba(255,255,255,.38);font-size:.83rem">Compila il form e finalizza il pagamento con Stripe.</p>
+      </div>
+
+      <!-- TBD Notice -->
+      <div style="background:rgba(196,0,66,.07);border:1px solid rgba(196,0,66,.2);border-radius:11px;padding:.875rem 1rem;margin-bottom:1.5rem;display:flex;gap:.75rem;align-items:flex-start">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:.1rem"><circle cx="12" cy="12" r="10" stroke="#C40042" stroke-width="1.5"/><path d="M12 8v4M12 16h.01" stroke="#C40042" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <p style="font-size:.77rem;color:rgba(255,255,255,.52);line-height:1.65">
+          <strong style="color:rgba(255,255,255,.78)">Listini in definizione.</strong> Iscrivendoti ora entri in lista con priorità early bird. Ti contatteremo per primo quando i prezzi saranno pronti.
+        </p>
+      </div>
+
+      <!-- FORM -->
+      <form id="prevendita-form" onsubmit="submitForm(event)" style="display:flex;flex-direction:column;gap:.95rem">
+
+        <!-- Nome + Cognome -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+          <div><label class="lbl">Nome *</label><input required type="text" id="firstName" placeholder="Marco" class="inp"/></div>
+          <div><label class="lbl">Cognome *</label><input required type="text" id="lastName" placeholder="Rossi" class="inp"/></div>
+        </div>
+
+        <!-- Email + Tel -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+          <div><label class="lbl">Email *</label><input required type="email" id="email" placeholder="marco@email.it" class="inp"/></div>
+          <div><label class="lbl">Telefono</label><input type="tel" id="phone" placeholder="+39 333…" class="inp"/></div>
+        </div>
+
+        <!-- Sede selector con geolocalizzazione -->
+        <div>
+          <label class="lbl" style="margin-bottom:.6rem">Sede *</label>
+          <div id="club-selector-wrap"></div>
+          <input type="hidden" id="sede" required/>
+        </div>
+
+        <!-- Piano radio -->
+        <div>
+          <label class="lbl" style="margin-bottom:.55rem">Piano di interesse *</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.45rem" id="piano-grid">
+            <div class="rc" onclick="selectPiano('base',this)" style="flex-direction:row;align-items:center;gap:.65rem">
+              <div id="dot-base" style="width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.25);flex-shrink:0;transition:all .2s"></div>
+              <div><div style="font-size:.84rem;font-weight:600">Base</div><div style="font-size:.7rem;color:rgba(255,255,255,.3)">Sala pesi + cardio</div></div>
+            </div>
+            <div class="rc" onclick="selectPiano('plus',this)" style="flex-direction:row;align-items:center;gap:.65rem">
+              <div id="dot-plus" style="width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.25);flex-shrink:0;transition:all .2s"></div>
+              <div><div style="font-size:.84rem;font-weight:600">Plus</div><div style="font-size:.7rem;color:rgba(255,255,255,.3)">Corsi + 2 sedi</div></div>
+            </div>
+            <div class="rc" onclick="selectPiano('premium',this)" style="flex-direction:row;align-items:center;gap:.65rem">
+              <div id="dot-premium" style="width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.25);flex-shrink:0;transition:all .2s"></div>
+              <div><div style="font-size:.84rem;font-weight:600">Premium</div><div style="font-size:.7rem;color:rgba(255,255,255,.3)">Piscina inclusa</div></div>
+            </div>
+            <div class="rc" onclick="selectPiano('personal',this)" style="flex-direction:row;align-items:center;gap:.65rem">
+              <div id="dot-personal" style="width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.25);flex-shrink:0;transition:all .2s"></div>
+              <div><div style="font-size:.84rem;font-weight:600">Personal</div><div style="font-size:.7rem;color:rgba(255,255,255,.3)">PT dedicato 1:1</div></div>
+            </div>
+          </div>
+          <input type="hidden" id="piano" required/>
+        </div>
+
+        <!-- Error -->
+        <div id="err" style="display:none;padding:.8rem 1rem;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;font-size:.82rem"></div>
+
+        <!-- CTA -->
+        <button type="submit" class="btn-p" id="submit-btn">
+          Blocca il tuo posto
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <p style="text-align:center;font-size:.7rem;color:rgba(255,255,255,.2);line-height:1.6">
+          Verrai reindirizzato a Stripe — pagamento 100% sicuro.<br/>
+          Inviando accetti la <a href="#" style="color:rgba(255,255,255,.35)">Privacy Policy</a>.
+        </p>
+      </form>
+
+      <!-- SUCCESS -->
+      <div id="success">
+        <div style="width:4.5rem;height:4.5rem;border-radius:50%;background:rgba(196,0,66,.15);border:1.5px solid rgba(196,0,66,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1) both">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#C40042" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:.5rem">Sei in lista! 🎉</h3>
+        <p style="color:rgba(255,255,255,.48);font-size:.875rem;line-height:1.75;max-width:22rem;margin:0 auto 1.5rem">Sei registrato con priorità early bird. Ti contatteremo non appena i prezzi saranno disponibili.</p>
+        <div id="success-summary" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1rem 1.25rem;display:inline-block;text-align:left;min-width:16rem"></div>
+      </div>
+
+    </div>
+
+    <!-- Trust -->
+    <div style="display:flex;justify-content:center;gap:1.5rem;margin-top:1.125rem;flex-wrap:wrap">
+      <span style="font-size:.7rem;color:rgba(255,255,255,.28);display:flex;align-items:center;gap:.35rem">🔒 Pagamento sicuro</span>
+      <span style="font-size:.7rem;color:rgba(255,255,255,.28);display:flex;align-items:center;gap:.35rem">↩ Rimborso garantito</span>
+      <span style="font-size:.7rem;color:rgba(255,255,255,.28);display:flex;align-items:center;gap:.35rem">⚡ Conferma immediata</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer style="border-top:1px solid rgba(255,255,255,.05);padding:1.5rem;text-align:center">
+  <p style="color:rgba(255,255,255,.18);font-size:.72rem">© 2025 Lume Fitness Club · <a href="#" style="color:rgba(255,255,255,.3)">Privacy</a> · info@lumefitness.it</p>
+</footer>
+
+<script>
+let selectedSede = '';
+let selectedPiano = '';
+
+// ── CLUB DATA ────────────────────────────────────────────────────────────────
+const CLUBS = [
+  { id:'piediripa',       name:'Lume Piediripa',   address:'Macerata — Piediripa',    city:'Zona est', lat:43.3080, lng:13.4820, isNew:true,  features:['Gym Floor','Corsi','Piscina'] },
+  { id:'centro_macerata', name:'Lume Centro',       address:'Macerata — Centro Storico', city:'Centro',    lat:43.2997, lng:13.4530, isNew:true,  features:['Gym Floor','CrossFit','Corsi'] },
+  { id:'macerata',        name:'Lume Macerata',     address:'Piazzale Mario Fattorini 1', city:'62100 Macerata', lat:43.3005, lng:13.4512, isNew:false, features:['Gym Floor','CrossFit','Reformer','Piscina'] },
+  { id:'montecassiano',   name:'Lume Montecassiano', address:'Via Sergio Piermanni 3', city:'62010 Montecassiano', lat:43.3618, lng:13.4237, isNew:false, features:['Gym Floor','Corsi','Piscina'] },
+];
+
+function haversine(lat1,lng1,lat2,lng2) {
+  const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLng=(lng2-lng1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function fmtDist(km) { return km<1?`${Math.round(km*1000)}m`:`${km.toFixed(1)}km`; }
+
+async function geocodeAddress(q) {
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1&countrycodes=it`,{headers:{'Accept-Language':'it'}});
+    const d = await r.json();
+    if (!d.length) return null;
+    return { lat:parseFloat(d[0].lat), lng:parseFloat(d[0].lon), display:d[0].display_name };
+  } catch { return null; }
+}
+
+function renderClubs(clubs, ranked) {
+  const wrap = document.getElementById('club-selector-wrap');
+  const resultInfo = ranked
+    ? `<p style="font-size:.73rem;color:rgba(255,255,255,.3);margin-bottom:.65rem">${clubs.length} sedi vicino a te</p>`
+    : '';
+
+  wrap.innerHTML = `
+    <!-- Search box -->
+    <div style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:13px;padding:.1rem .15rem;margin-bottom:.875rem;transition:border-color .2s">
+      <div style="display:flex;align-items:center;gap:.5rem;padding:.62rem 1rem">
+        <svg width="15" height="15" fill="rgba(255,255,255,.4)" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <input id="addr-input" type="text" placeholder="Inserisci il tuo indirizzo o CAP…"
+          style="flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:.875rem;font-family:inherit;min-width:0"
+          oninput="handleAddrInput(this.value)"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();triggerSearch()}"
+        />
+        <span id="search-spinner" style="display:none">
+          <svg style="animation:spin 1s linear infinite" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3" stroke-dasharray="32" stroke-dashoffset="8"/></svg>
+        </span>
+        <button id="clear-addr" onclick="clearAddr()" style="display:none;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.38);padding:.15rem">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.07);margin:0 1rem"></div>
+      <button type="button" id="gps-btn" onclick="useGPS()"
+        style="display:flex;align-items:center;gap:.45rem;padding:.58rem 1rem;width:100%;background:transparent;border:none;color:#C40042;font-size:.83rem;font-weight:600;cursor:pointer;font-family:inherit;border-radius:10px;transition:background .2s"
+        onmouseover="this.style.background='rgba(196,0,66,.08)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#C40042" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#C40042" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Usa la mia posizione
+      </button>
+    </div>
+    <div id="addr-error" style="display:none;padding:.65rem .9rem;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.22);color:#fca5a5;font-size:.78rem;margin-bottom:.75rem"></div>
+    ${resultInfo}
+    <div id="clubs-list" style="display:flex;flex-direction:column;gap:.45rem"></div>
+  `;
+
+  renderClubList(clubs, ranked);
+
+  // Restore addr value if set
+  if (window._lastAddr) document.getElementById('addr-input').value = window._lastAddr;
+}
+
+function renderClubList(clubs, ranked) {
+  const list = document.getElementById('clubs-list');
+  if (!list) return;
+  list.innerHTML = clubs.map((c,i) => {
+    const isSel = selectedSede === c.id;
+    const selStyle = isSel
+      ? 'border-color:rgba(196,0,66,.6);background:rgba(196,0,66,.1)'
+      : i===0&&ranked ? 'border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04)' : 'border-color:rgba(255,255,255,.07);background:rgba(255,255,255,.02)';
+    const btnStyle = isSel
+      ? 'background:#C40042;color:#fff;border-color:#C40042'
+      : 'background:rgba(255,255,255,.08);color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.1)';
+
+    const newBadge = c.isNew ? `<span style="font-size:.56rem;font-weight:700;padding:.1rem .4rem;border-radius:9999px;background:rgba(196,0,66,.2);color:#ff6080;border:1px solid rgba(196,0,66,.3);letter-spacing:.05em;margin-left:.35rem">NUOVO</span>` : '';
+    const closestBadge = (i===0&&ranked) ? `<span style="font-size:.56rem;font-weight:700;padding:.1rem .4rem;border-radius:9999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.1);letter-spacing:.04em;margin-left:.3rem">PIÙ VICINO</span>` : '';
+    const dist = (ranked&&c.dist!=null) ? `<div style="display:flex;align-items:center;gap:.25rem;font-size:.76rem;color:rgba(255,255,255,.38);margin-bottom:.45rem"><svg width="10" height="10" fill="rgba(196,0,66,.7)" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>${fmtDist(c.dist)}</div>` : '';
+    const features = c.features.map(f=>`<span style="font-size:.6rem;padding:.09rem .45rem;border-radius:9999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.35)">${f}</span>`).join('');
+
+    return `
+      <button type="button" onclick="selectClub('${c.id}')"
+        style="display:flex;align-items:center;justify-content:space-between;gap:.875rem;padding:.9rem 1.1rem;border-radius:13px;border:1.5px solid;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit;${selStyle}"
+        onmouseover="if('${c.id}'!==selectedSede)this.style.borderColor='rgba(255,255,255,.18)'"
+        onmouseout="if('${c.id}'!==selectedSede)this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center;flex-wrap:wrap;margin-bottom:.28rem">
+            <span style="font-weight:700;font-size:.87rem;color:${isSel?'#fff':'rgba(255,255,255,.88)'};letter-spacing:.01em">${c.name.toUpperCase()}</span>
+            ${newBadge}${closestBadge}
+          </div>
+          <div style="font-size:.76rem;color:rgba(255,255,255,.38);margin-bottom:.12rem">${c.address}</div>
+          <div style="font-size:.74rem;color:rgba(255,255,255,.25);margin-bottom:.45rem">${c.city}</div>
+          <div style="display:flex;gap:.35rem;flex-wrap:wrap">${features}</div>
+        </div>
+        <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:.4rem">
+          ${dist}
+          <div style="padding:.4rem .9rem;border-radius:9999px;font-size:.78rem;font-weight:700;border:1px solid;transition:all .2s;white-space:nowrap;${btnStyle}">
+            ${isSel?'✓ Selezionata':'Seleziona'}
+          </div>
+        </div>
+      </button>`;
+  }).join('');
+}
+
+function selectClub(id) {
+  selectedSede = id;
+  document.getElementById('sede').value = id;
+  renderClubList(window._currentClubs || CLUBS.map(c=>({...c,dist:null})), window._ranked||false);
+}
+
+window._currentClubs = CLUBS.map(c=>({...c,dist:null}));
+window._ranked = false;
+window._lastAddr = '';
+let _debounce;
+
+function handleAddrInput(v) {
+  window._lastAddr = v;
+  const clearBtn = document.getElementById('clear-addr');
+  if (clearBtn) clearBtn.style.display = v ? 'flex' : 'none';
+  clearTimeout(_debounce);
+  if (v.length > 4) _debounce = setTimeout(triggerSearch, 800);
+}
+
+async function triggerSearch() {
+  const input = document.getElementById('addr-input');
+  if (!input || !input.value.trim()) return;
+  setSearchSpinner(true);
+  setAddrError('');
+  const result = await geocodeAddress(input.value);
+  setSearchSpinner(false);
+  if (!result) { setAddrError('Indirizzo non trovato. Prova con una via, città o CAP.'); return; }
+  rankAndRender(result.lat, result.lng);
+}
+
+async function useGPS() {
+  if (!navigator.geolocation) { setAddrError('Geolocalizzazione non supportata da questo browser.'); return; }
+  const btn = document.getElementById('gps-btn');
+  if (btn) btn.textContent = 'Ricerca in corso…';
+  setSearchSpinner(true);
+  navigator.geolocation.getCurrentPosition(
+    async pos => {
+      const {latitude:lat,longitude:lng} = pos.coords;
+      setSearchSpinner(false);
+      if (btn) btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#C40042" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#C40042" stroke-width="1.8" stroke-linecap="round"/></svg> Usa la mia posizione`;
+      // Reverse geocode
+      try {
+        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16`,{headers:{'Accept-Language':'it'}});
+        const d = await r.json();
+        const a = d.address;
+        const label = [a.road,a.house_number,a.city||a.town||a.village].filter(Boolean).join(', ');
+        const inp = document.getElementById('addr-input');
+        if (inp) { inp.value = label||'La mia posizione'; window._lastAddr = inp.value; }
+        const cb = document.getElementById('clear-addr');
+        if (cb) cb.style.display = 'flex';
+      } catch {}
+      rankAndRender(lat, lng);
+    },
+    err => {
+      setSearchSpinner(false);
+      if (btn) btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#C40042" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#C40042" stroke-width="1.8" stroke-linecap="round"/></svg> Usa la mia posizione`;
+      const msgs = {1:'Permesso negato. Abilita la geolocalizzazione.',2:'Posizione non disponibile.',3:'Timeout. Riprova.'};
+      setAddrError(msgs[err.code]||'Errore geolocalizzazione.');
+    },
+    {timeout:10000}
+  );
+}
+
+function rankAndRender(lat, lng) {
+  const ranked = CLUBS.map(c=>({...c,dist:haversine(lat,lng,c.lat,c.lng)})).sort((a,b)=>a.dist-b.dist);
+  window._currentClubs = ranked;
+  window._ranked = true;
+  renderClubList(ranked, true);
+  // Update count label
+  const wrap = document.getElementById('club-selector-wrap');
+  const info = wrap?.querySelector('#result-info');
+  const existingP = wrap?.querySelectorAll('p');
+  // Re-render result count
+  const countEl = document.createElement('p');
+  countEl.style.cssText = 'font-size:.73rem;color:rgba(255,255,255,.3);margin-bottom:.65rem';
+  countEl.textContent = `${ranked.length} sedi vicino a te`;
+  const list = document.getElementById('clubs-list');
+  if (list && list.previousElementSibling?.tagName === 'P') {
+    list.previousElementSibling.textContent = `${ranked.length} sedi vicino a te`;
+  } else if (list) {
+    list.before(countEl);
+  }
+}
+
+function clearAddr() {
+  const input = document.getElementById('addr-input');
+  if (input) { input.value=''; window._lastAddr=''; }
+  const cb = document.getElementById('clear-addr');
+  if (cb) cb.style.display='none';
+  window._currentClubs = CLUBS.map(c=>({...c,dist:null}));
+  window._ranked = false;
+  renderClubList(window._currentClubs, false);
+  const existingP = document.getElementById('clubs-list')?.previousElementSibling;
+  if (existingP?.tagName==='P') existingP.remove();
+}
+
+function setSearchSpinner(show) {
+  const el = document.getElementById('search-spinner');
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+
+function setAddrError(msg) {
+  const el = document.getElementById('addr-error');
+  if (!el) return;
+  if (msg) { el.textContent = msg; el.style.display = 'block'; }
+  else { el.style.display = 'none'; }
+}
+
+// Init selector
+document.addEventListener('DOMContentLoaded', () => {
+  renderClubs(CLUBS.map(c=>({...c,dist:null})), false);
+});
+
+function selectPiano(val, el) {
+  selectedPiano = val;
+  document.getElementById('piano').value = val;
+  document.querySelectorAll('#piano-grid .rc').forEach(r => r.classList.remove('sel'));
+  el.classList.add('sel');
+  // Update dots
+  ['base','plus','premium','personal'].forEach(p => {
+    const d = document.getElementById('dot-' + p);
+    if (d) {
+      d.style.background = p === val ? '#C40042' : 'transparent';
+      d.style.borderColor = p === val ? '#C40042' : 'rgba(255,255,255,.25)';
+    }
+  });
+}
+
+async function submitForm(e) {
+  e.preventDefault();
+  const errEl = document.getElementById('err');
+  const btn = document.getElementById('submit-btn');
+  errEl.style.display = 'none';
+
+  // Validate
+  if (!selectedSede) { showErr('Seleziona una sede'); return; }
+  if (!selectedPiano) { showErr('Seleziona un piano'); return; }
+
+  const data = {
+    firstName: document.getElementById('firstName').value,
+    lastName:  document.getElementById('lastName').value,
+    email:     document.getElementById('email').value,
+    phone:     document.getElementById('phone').value,
+    sede:      selectedSede,
+    piano:     selectedPiano,
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = `<svg style="animation:spin 1s linear infinite" width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-dasharray="32" stroke-dashoffset="8"/></svg> Elaborazione…`;
+
+  try {
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+
+    if (!res.ok) throw new Error(json.error ?? 'Errore');
+
+    if (json.mode === 'checkout' && json.url) {
+      window.location.href = json.url;
+    } else {
+      // Waitlist success
+      document.getElementById('prevendita-form').style.display = 'none';
+      const suc = document.getElementById('success');
+      suc.style.display = 'block';
+      const sedeLabels = {piediripa:'Piediripa',centro_macerata:'Centro Macerata',macerata:'Piazzale Fattorini',montecassiano:'Montecassiano'};
+      document.getElementById('success-summary').innerHTML = `
+        <p style="font-size:.7rem;color:rgba(255,255,255,.3);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.1em">Riepilogo</p>
+        <p style="font-size:.85rem;font-weight:600;margin-bottom:.2rem">${data.firstName} ${data.lastName}</p>
+        <p style="font-size:.8rem;color:rgba(255,255,255,.42);margin-bottom:.5rem">${data.email}</p>
+        <p style="font-size:.82rem;color:#C40042;font-weight:600">${sedeLabels[data.sede] ?? data.sede} · Piano ${data.piano.charAt(0).toUpperCase() + data.piano.slice(1)}</p>
+      `;
+    }
+  } catch (err) {
+    showErr(err.message);
+    btn.disabled = false;
+    btn.innerHTML = `Blocca il tuo posto <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+}
+
+function showErr(msg) {
+  const el = document.getElementById('err');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// Responsive: collapse to single column on small screens
+if (window.innerWidth < 768) {
+  const main = document.querySelector('main');
+  if (main) { main.style.gridTemplateColumns = '1fr'; main.style.gap = '2rem'; }
+  const sticky = document.querySelector('[style*="position:sticky"]');
+  if (sticky) sticky.style.position = 'static';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { COURSES, CLUBS } from '../lib/data';
+
+const categories = ['Tutti', ...new Set(COURSES.map(c => c.category))];
+const days = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+
+// Mock schedule slots
+const schedule = [
+  { courseId: 'spinning', day: 0, time: '07:00', club: 'macerata', spots: 20, booked: 12 },
+  { courseId: 'yoga', day: 0, time: '09:30', club: 'macerata', spots: 15, booked: 8 },
+  { courseId: 'hiit', day: 0, time: '18:00', club: 'macerata', spots: 18, booked: 18 },
+  { courseId: 'spinning', day: 1, time: '07:00', club: 'montecassiano', spots: 15, booked: 5 },
+  { courseId: 'crossfit', day: 1, time: '10:00', club: 'macerata', spots: 12, booked: 9 },
+  { courseId: 'zumba', day: 1, time: '19:00', club: 'macerata', spots: 25, booked: 14 },
+  { courseId: 'pilates', day: 2, time: '08:30', club: 'macerata', spots: 12, booked: 4 },
+  { courseId: 'hiit', day: 2, time: '12:00', club: 'montecassiano', spots: 18, booked: 7 },
+  { courseId: 'bodyweight', day: 2, time: '17:30', club: 'montecassiano', spots: 10, booked: 3 },
+  { courseId: 'yoga', day: 3, time: '07:30', club: 'both', spots: 15, booked: 11 },
+  { courseId: 'spinning', day: 3, time: '18:30', club: 'macerata', spots: 20, booked: 16 },
+  { courseId: 'stretching', day: 4, time: '09:00', club: 'macerata', spots: 15, booked: 6 },
+  { courseId: 'crossfit', day: 4, time: '19:00', club: 'both', spots: 12, booked: 10 },
+  { courseId: 'zumba', day: 5, time: '10:00', club: 'macerata', spots: 25, booked: 20 },
+  { courseId: 'yoga', day: 5, time: '11:30', club: 'montecassiano', spots: 15, booked: 9 },
+  { courseId: 'spinning', day: 6, time: '09:00', club: 'macerata', spots: 20, booked: 8 },
+];
+---
+
+<Layout title="Corsi & Orari" description="Scopri tutti i corsi di gruppo Lume Fitness: spinning, yoga, HIIT, pilates, zumba e molto altro. Orari aggiornati per entrambe le sedi.">
+  <Header />
+
+  <main class="pt-24">
+    <!-- Hero section -->
+    <section class="py-16 px-4 sm:px-6">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal">
+          <p class="section-label mb-3">Corsi & attività</p>
+          <h1 class="section-title mb-4">Il tuo allenamento,<br/>ogni giorno.</h1>
+          <p class="text-white/50 max-w-xl">Oltre 30 corsi di gruppo a settimana nelle due sedi. Trova quello giusto per te.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtri e corsi -->
+    <section class="py-8 px-4 sm:px-6">
+      <div class="mx-auto max-w-7xl">
+        <!-- Filter tabs -->
+        <div class="flex gap-2 flex-wrap mb-8 reveal" id="category-filters">
+          {categories.map((cat, i) => (
+            <button
+              data-category={cat}
+              class:list={[
+                'filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border',
+                i === 0
+                  ? 'bg-lume-300 text-dark-900 border-lume-300 active'
+                  : 'bg-transparent text-white/60 border-white/15 hover:border-white/30 hover:text-white'
+              ]}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <!-- Corsi grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="courses-grid">
+          {COURSES.map((course, i) => (
+            <div
+              data-category={course.category}
+              class="card p-6 course-card reveal"
+              style={`transition-delay: ${i * 60}ms`}
+            >
+              <div
+                class="w-11 h-11 rounded-xl mb-4 flex items-center justify-center font-bold text-sm text-dark-900"
+                style={`background-color: ${course.color}`}
+              >
+                {course.name.slice(0, 2).toUpperCase()}
+              </div>
+              <h3 class="font-display font-semibold text-lg mb-1">{course.name}</h3>
+              <p class="text-white/40 text-sm mb-4 leading-relaxed">{course.description}</p>
+              <div class="space-y-1.5 text-xs text-white/30">
+                <div class="flex justify-between"><span>Durata</span><span class="text-white/60">{course.duration} min</span></div>
+                <div class="flex justify-between"><span>Livello</span><span class="text-white/60">{course.level}</span></div>
+                <div class="flex justify-between"><span>Istruttore</span><span class="text-white/60">{course.instructor}</span></div>
+                <div class="flex justify-between"><span>Sede</span>
+                  <span class="text-white/60">{course.club === 'both' ? 'Entrambe' : course.club === 'macerata' ? 'Macerata' : 'Montecassiano'}</span>
+                </div>
+              </div>
+              <a href="/prenota" class="btn-primary text-xs py-2 px-4 mt-5 w-full justify-center">Prenota</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Orari settimanali -->
+    <section class="py-16 px-4 sm:px-6 bg-dark-800/30">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal mb-10">
+          <p class="section-label mb-3">Orari</p>
+          <h2 class="section-title text-3xl md:text-4xl">Calendario settimanale</h2>
+        </div>
+
+        <!-- Sede filter -->
+        <div class="flex gap-3 mb-8 reveal" id="club-filters">
+          {['Tutte', 'Macerata', 'Montecassiano'].map((label, i) => (
+            <button
+              data-club={label.toLowerCase()}
+              class:list={[
+                'schedule-filter-btn px-4 py-2 rounded-full text-sm border transition-all',
+                i === 0
+                  ? 'bg-lume-300 text-dark-900 border-lume-300 active'
+                  : 'text-white/60 border-white/15 hover:text-white hover:border-white/30'
+              ]}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <!-- Schedule table (scrollabile su mobile) -->
+        <div class="overflow-x-auto reveal">
+          <table class="w-full min-w-[700px]">
+            <thead>
+              <tr>
+                <th class="text-left text-xs text-white/30 font-medium py-2 pr-4 w-24">Orario</th>
+                {days.map(day => (
+                  <th class="text-xs text-white/30 font-medium py-2 px-2 text-center">{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {['07:00','08:30','09:00','09:30','10:00','11:30','12:00','17:30','18:00','18:30','19:00'].map(time => {
+                const slotsAtTime = schedule.filter(s => s.time === time);
+                if (slotsAtTime.length === 0) return null;
+                return (
+                  <tr class="border-t border-white/[0.05]" data-time={time}>
+                    <td class="text-white/40 text-sm py-2 pr-4 font-mono">{time}</td>
+                    {days.map((_, dayIdx) => {
+                      const slot = slotsAtTime.find(s => s.day === dayIdx);
+                      const course = slot ? COURSES.find(c => c.id === slot.courseId) : null;
+                      const isFull = slot && slot.booked >= slot.spots;
+                      return (
+                        <td class="py-2 px-1 text-center">
+                          {slot && course ? (
+                            <a
+                              href="/prenota"
+                              data-club={slot.club}
+                              class:list={[
+                                'schedule-slot block rounded-lg px-2 py-1.5 text-xs transition-all hover:scale-105',
+                                isFull
+                                  ? 'bg-white/5 text-white/30 cursor-not-allowed'
+                                  : 'text-dark-900 font-semibold hover:opacity-90'
+                              ]}
+                              style={isFull ? '' : `background-color: ${course.color}20; color: ${course.color};`}
+                            >
+                              <div class="font-medium leading-tight">{course.name}</div>
+                              <div class="text-xs opacity-60 mt-0.5">
+                                {isFull ? 'Completo' : `${slot.spots - slot.booked} posti`}
+                              </div>
+                            </a>
+                          ) : <span class="text-white/10">—</span>}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Filtro categorie corsi
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-category');
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('bg-lume-300', 'text-dark-900', 'border-lume-300');
+        b.classList.add('text-white/60', 'border-white/15');
+      });
+      btn.classList.add('bg-lume-300', 'text-dark-900', 'border-lume-300');
+      btn.classList.remove('text-white/60', 'border-white/15');
+
+      document.querySelectorAll('.course-card').forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        (card as HTMLElement).style.display = (cat === 'Tutti' || cardCat === cat) ? 'block' : 'none';
+      });
+    });
+  });
+
+  // Filtro sede calendario
+  document.querySelectorAll('.schedule-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const club = btn.getAttribute('data-club');
+      document.querySelectorAll('.schedule-filter-btn').forEach(b => {
+        b.classList.remove('bg-lume-300', 'text-dark-900', 'border-lume-300');
+        b.classList.add('text-white/60', 'border-white/15');
+      });
+      btn.classList.add('bg-lume-300', 'text-dark-900', 'border-lume-300');
+
+      document.querySelectorAll('.schedule-slot').forEach(slot => {
+        const slotClub = slot.getAttribute('data-club');
+        const cell = slot.closest('td') as HTMLElement;
+        if (club === 'tutte' || slotClub === club || slotClub === 'both') {
+          cell.style.visibility = 'visible';
+        } else {
+          cell.style.visibility = 'hidden';
+        }
+      });
+    });
+  });
+</script>
