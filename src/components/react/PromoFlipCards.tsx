@@ -21,11 +21,11 @@ const CLUBS: Club[] = [
     feat: ['Sala pesi attrezzata', 'Corsi di gruppo', 'Piscina & Scuola Nuoto', 'Spogliatoi moderni', 'Parcheggio gratuito'] },
   { n: '03', cat: 'Apertura 2026', name: 'Lume Piediripa', status: 'Apertura 2026', accent: 'amber',
     addr: 'Macerata · Zona Piediripa', hours: 'Apertura prevista 2026',
-    phone: 'Iscriviti agli aggiornamenti', cta: { label: 'Resta aggiornato', href: BASE + 'form/piediripa' },
+    phone: 'Iscriviti agli aggiornamenti', cta: { label: 'Vai alla prevendita', href: 'https://axel2104.github.io/lume-prevendita/?sede=piediripa' },
     feat: ['Gym Floor di nuova generazione', 'Sala corsi panoramica', 'Piscina semi-olimpionica', 'Area functional & cardio', 'Ampio parcheggio'] },
   { n: '04', cat: 'Apertura 2026', name: 'Lume Centro', status: 'Apertura 2026', accent: 'amber',
     addr: 'Macerata · Centro Storico', hours: 'Apertura prevista 2026',
-    phone: 'Iscriviti agli aggiornamenti', cta: { label: 'Resta aggiornato', href: BASE + 'form/centro' },
+    phone: 'Iscriviti agli aggiornamenti', cta: { label: 'Vai alla prevendita', href: 'https://axel2104.github.io/lume-prevendita/?sede=centro' },
     feat: ['Boutique gym nel cuore della città', 'Box CrossFit dedicato', 'Studio Reformer Pilates', 'Personal training su misura', 'Lounge & recovery zone'] },
 ];
 
@@ -134,7 +134,7 @@ function FlipCard({ club }: { club: Club }) {
             <span className="ls-row"><Pin />{club.addr}</span>
             <span className="ls-row"><Clock />{club.hours}</span>
             <span className="ls-row"><PhoneIco />{club.phone}</span>
-            <a className="ls-cta" href={club.cta.href} onClick={(e) => e.stopPropagation()}>{club.cta.label} <Arrow /></a>
+            <a className="ls-cta" href={club.cta.href} {...(club.cta.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} onClick={(e) => e.stopPropagation()}>{club.cta.label} <Arrow /></a>
           </div>
         </div>
       </div>

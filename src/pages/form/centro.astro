@@ -1,9 +1,17 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import SedeForm from '../../components/react/SedeForm';
+const target = 'https://axel2104.github.io/lume-prevendita/?sede=centro';
 ---
-<Layout title="Lume Centro" description="Prevendita Early Bird 2026/27 — Lume Centro">
-  <main>
-    <SedeForm client:load variant="prevendita" sedeName="Lume Centro" sedeSlug="centro" accent="#f5a623" />
-  </main>
-</Layout>
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="refresh" content={`0; url=${target}`} />
+<title>Prevendita Lume centro</title>
+<style>html,body{margin:0;height:100%;background:#070707;color:#fff;font-family:Inter,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center}a{color:#C40042}</style>
+</head>
+<body>
+<p>Reindirizzamento alla prevendita&hellip;<br/><a href={target}>Continua se non vieni reindirizzato</a></p>
+<script set:html={`location.replace(${JSON.stringify(target)})`}></script>
+</body>
+</html>
